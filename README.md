@@ -18,6 +18,8 @@ npm install --save react-wseditor
 - programmatic control of editor ( see example add,del rows and scroll )
 - cell/row selection mode ( multiple selection through mouse and ctrl key )
 - worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end, direct editing or F2, canc to delete cell content )
+- sortable columns ( hold shift for multilevel sort )
+- scrollbar
 - [options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
 
 ## Example
