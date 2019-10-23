@@ -10,29 +10,29 @@
 npm install --save react-wseditor
 ```
 
+## Features
+
+- virtualized grid ( allow to manage millions of rows )
+- text/numeric/boolean cell controls
+- easy to extend with custom cell control
+- programmatic control of editor ( see example add,del rows and scroll )
+- cell/row selection mode ( multiple selection through mouse and ctrl key )
+- worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end
+
 ## Example
+
+[LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/1f242922347ad80ff84869f13c68cf4a784a28de/test01)
 
 ![](doc/example.png)
 
 ```tsx
-import * as React from 'react';
-
-import styles from './styles.css'
-import WSEditorColumn from './WSEditorColumn';
-import WSEditor from './WSEditor';
-import WSEditorCellEditor, { WSEditorCellEditorProps } from './WSEditorCellEditor';
-import WSEditorCellEditorText from './WSEditorCellEditorText';
-import WSEditorCellEditorNumber from './WSEditorCellEditorNumber';
-import WSEditorCellEditorBoolean from './WSEditorCellEditorBoolean';
-import { useState } from 'react';
+import { useState } from "react";
+import React from "react";
 import { Grid, TextField, Button, Typography, makeStyles, FormControlLabel, Checkbox } from '@material-ui/core';
-import WSEditorViewCellCoord from './WSEditorViewCellCoord';
-import { WSEditorSelectMode } from './WSEditorSelection';
-
-export {
-  WSEditor, WSEditorColumn, WSEditorCellEditor, WSEditorCellEditorProps,
-  WSEditorCellEditorText, WSEditorCellEditorNumber
-};
+import {
+  WSEditor, WSEditorColumn, WSEditorCellEditorProps, WSEditorViewCellCoord,
+  WSEditorCellEditorText, WSEditorCellEditorNumber, WSEditorCellEditorBoolean, WSEditorSelectMode
+} from 'react-wseditor';
 
 interface MyData {
   col1: string,
@@ -45,8 +45,8 @@ export default function ExampleComponent() {
   const [ROWS_COUNT, SET_GRID_SIZE] = useState(12);
   const [GRID_VIEW_ROWS, SET_GRID_VIEW_ROWS] = useState(6);
   const [SELECT_MODE_ROWS, SET_SELECT_MODE_ROWS] = useState(false);
-  const [rows, setRows] = React.useState<MyData[]>([]);
-  const [cols, setCols] = React.useState<WSEditorColumn<MyData>[]>([]);
+  const [rows, setRows] = useState<MyData[]>([]);
+  const [cols, setCols] = useState<WSEditorColumn<MyData>[]>([]);
 
   const q1: MyData[] = [];
 
@@ -137,7 +137,7 @@ export default function ExampleComponent() {
               const editor = editorRef.current;
               const newRowsCount = editor.props.rows.length + 1;
               const addedRowIdx = editor.addRow({ col1: "new row", col2: "", col3: 0, col4: false } as MyData, true);
-              editor.scrollToRow(addedRowIdx, newRowsCount);              
+              editor.scrollToRow(addedRowIdx, newRowsCount);
               editor.selectRow(addedRowIdx, newRowsCount);
             }
           }}>add row</Button>
