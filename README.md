@@ -13,17 +13,18 @@ npm install --save react-wseditor
 ## Features
 
 - virtualized grid ( allow to manage millions of rows )
-- text/numeric/boolean cell controls
-- easy to extend with custom cell control
+- [text](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorText.tsx)/[numeric](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorNumber.tsx)/[boolean](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorBoolean.tsx) cell controls
+- easy to extend from base [cell editor](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditor.tsx)
 - programmatic control of editor ( see example add,del rows and scroll )
 - cell/row selection mode ( multiple selection through mouse and ctrl key )
-- worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end
+- worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end, direct editing or F2, canc to delete cell content )
+- [options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
 
 ## Example
 
 [LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/1f242922347ad80ff84869f13c68cf4a784a28de/test01)
 
-![](doc/example.png)
+![](doc/react-wseditor-example.png)
 
 ```tsx
 import { useState } from "react";
