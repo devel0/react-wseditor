@@ -14,11 +14,11 @@ import WSEditorCellEditorBoolean from './WSEditorCellEditorBoolean';
 import { useState } from 'react';
 import { Grid, TextField, Button, Typography, makeStyles, FormControlLabel, Checkbox } from '@material-ui/core';
 import WSEditorViewCellCoord from './WSEditorViewCellCoord';
-import { WSEditorSelectMode } from './WSEditorSelection';
+import WSEditorSelection, { WSEditorSelectMode } from './WSEditorSelection';
 
 export {
-  WSEditor, WSEditorColumn, WSEditorCellEditor, WSEditorCellEditorProps,
-  WSEditorCellEditorText, WSEditorCellEditorNumber
+  WSEditor, WSEditorCellEditor, WSEditorCellEditorBoolean, WSEditorCellEditorNumber, WSEditorCellEditorProps, WSEditorCellEditorText,
+  WSEditorColumn, WSEditorSelection, WSEditorSelectMode, WSEditorViewCellCoord
 };
 
 interface MyData {
