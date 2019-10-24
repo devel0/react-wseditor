@@ -326,7 +326,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
         for (let viewRowIdx = 0; viewRowIdx < this.props.viewRowCount!; ++viewRowIdx) {
             const ridx = this.state.scrollOffset + viewRowIdx;
-            if (ridx >= this.props.rows.length) continue;
+            if (ridx < 0 || ridx >= this.props.rows.length) continue;
 
             res.push(<Grid key={"vr:" + viewRowIdx} container={true} direction="row">
                 <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
@@ -392,7 +392,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
                             const n = v as number;
                             if (!isNaN(n))
                                 this.setState({
-                                    scrollOffset: this.props.rows.length - this.props.viewRowCount! - n
+                                    scrollOffset: Math.max(this.props.rows.length - this.props.viewRowCount! - n, 0)
                                 });
                         }}
                         style={{
