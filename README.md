@@ -22,9 +22,31 @@ npm install --save react-wseditor
 - scrollbar
 - [options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
 
+## How to contribute (quickstart)
+
+```sh
+git clone https://github.com/devel0/react-wseditor-demo.git
+cd react-wseditor-demo
+cd test01-dev
+git submodule update --init --recursive
+yarn install
+code .
+```
+
+from vscode open terminal ctrl+`
+
+```sh
+yarn install
+yarn start
+```
+
+when read hit F5 to debug with chrome ( [more info](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md) )
+
 ## Example
 
-[LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/fa111379a61eaccc38a133ca00a245673a302d23/test01)
+- [LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/fa111379a61eaccc38a133ca00a245673a302d23/test01)
+
+- [test01 src](https://github.com/devel0/react-wseditor-demo/tree/master/test01)
 
 ![](doc/react-wseditor-example.png)
 
