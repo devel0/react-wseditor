@@ -62,7 +62,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
     //
     viewCellEditors: Map<string, WSEditorCellEditor<T>> = new Map<string, WSEditorCellEditor<T>>();
 
-    setCellEditor = (viewCell: WSEditorViewCellCoord<T>, cellEditor: WSEditorCellEditor<T>) =>
+    setCellEditor = (viewCell: WSEditorViewCellCoord<T>, cellEditor: WSEditorCellEditor<T, any>) =>
         this.viewCellEditors.set(viewCell.key(), cellEditor);
 
     getCellEditor = (viewCell: WSEditorViewCellCoord<T>) => this.viewCellEditors.get(viewCell.key());
@@ -77,7 +77,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
     getCellData = (viewCell: WSEditorViewCellCoord<T>) => {
         const cell = viewCell.getCellCoord(this.state.scrollOffset);
-        return this.props.rows[cell.rowIdx][this.props.cols[cell.colIdx].field];
+        return (this.props.rows[cell.rowIdx] as any)[this.props.cols[cell.colIdx].field];
     }
 
     setViewCellData = (viewCell: WSEditorViewCellCoord<T>, newData: any) =>
@@ -85,7 +85,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
     setCellData = (cell: WSEditorCellCoord<T>, newData: any) => {
         const q = this.props.rows.slice();
-        q[cell.rowIdx][this.props.cols[cell.colIdx].field] = newData;
+        (q[cell.rowIdx] as any)[this.props.cols[cell.colIdx].field] = newData;
         this.props.setRows(q);
     }
 
@@ -301,7 +301,7 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
         for (let si = sortBy.length - 1; si >= 0; --si) {
             const sortByNfo = sortBy[si];
             if (sortByNfo.sortDir === undefined) continue;
-            q = q.sort((a, b) => {
+            q = q.sort((a: any, b: any) => {
                 const valA = a[sortByNfo.field];
                 const valB = b[sortByNfo.field];
                 const ascRes = valA < valB ? -1 : 1;

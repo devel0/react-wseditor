@@ -8,7 +8,7 @@ import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 
 class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
 {
-    cbRef: HTMLButtonElement | null;
+    cbRef: HTMLButtonElement | null = null;
 
     constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
         super(props, editor, viewCell);

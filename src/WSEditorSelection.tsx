@@ -40,7 +40,7 @@ export class WSEditorSelectionRange<T>
     get to() { return this._to; }
 
     /** compute this range bounds */
-    get bounds() { return new WSEditorSelectionBounds<T>(this); }
+    get bounds() : WSEditorSelectionBounds<T> { return new WSEditorSelectionBounds<T>(this); }
 
     constructor(from: WSEditorCellCoord<T>, to: WSEditorCellCoord<T>) {
         this._from = from;

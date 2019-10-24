@@ -12,7 +12,7 @@ export interface WSEditorColumnHeaderProps<T> {
 
 class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeaderProps<T>>
 {
-    viewRowIdx: number;    
+    viewRowIdx: number = 0;
 
     constructor(props: WSEditorColumnHeaderProps<T>) {
         super(props);
@@ -24,7 +24,7 @@ class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeaderProps<
 
     render() {
         return <Grid
-            xs            
+            xs
             onMouseDown={(e) => this.toggleSort(e.getModifierState("Shift"))}
             item={true} style={{ background: "#eeeeee", cursor: "pointer", border: "1px solid #aeaeae" }}>
             <Typography style={{ margin: 2 }}>

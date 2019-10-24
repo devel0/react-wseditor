@@ -16,7 +16,7 @@ const CellTextField = withStyles({
 
 class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {
-    txtboxRef: HTMLInputElement | null;
+    txtboxRef: HTMLInputElement | null = null;
 
     constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
         super(props, editor, viewCell);
