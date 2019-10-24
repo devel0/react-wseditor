@@ -29,6 +29,7 @@ git clone https://github.com/devel0/react-wseditor-demo.git
 cd react-wseditor-demo
 cd test01-dev
 git submodule update --init --recursive
+git submodule foreach git pull origin master
 yarn install
 code .
 ```
