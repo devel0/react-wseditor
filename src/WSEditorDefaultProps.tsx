@@ -10,6 +10,7 @@ export interface WSEditorPropsOpts {
     readonly?: boolean;
     cellBorder?: boolean;
     cellBorderStyle?: string;
+    currentCellBorderStyle?: string;
 
     selectionBackground?: string;
 }
@@ -20,9 +21,10 @@ export const WSEditorDefaultProps: WSEditorPropsOpts = {
     selectionModeMulti: true,
     readonly: false,
     
-    outlineCell: true,
-    outlineCellStyle: "1px solid magenta",        
+    outlineCell: false,
+    outlineCellStyle: "2px solid rgba(56,90,162,0.8)",        
     cellBorder: true,
     cellBorderStyle:"1px solid #eeeeee",
+    currentCellBorderStyle: "1px solid rgba(56,90,162,0.8)",
     selectionBackground: "rgba(56,90,162,0.2)"
 };
