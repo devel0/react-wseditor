@@ -28,6 +28,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 
     rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
         const ctrl_key = e.getModifierState("Control");
+        const shift_key = e.getModifierState("Shift");
 
         let keyHandled = true;
         let focusCell = true;
@@ -102,7 +103,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             keyHandled = false;
 
         if (keyHandled) {
-            if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx));
+            if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx), shift_key);
         }
         else if (cellEditor) {
             if (e.key !== "Control" && e.key !== "Shift" && e.key !== "Alt" && e.key !== "Meta")
@@ -125,10 +126,10 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         const ctrl_key = e.getModifierState("Control");
 
         this.props.editor.setCurrentCell(
-            viewCell.getCellCoord(this.props.editor.state.scrollOffset), 
+            viewCell.getCellCoord(this.props.editor.state.scrollOffset),
             shift_key === true, // endingCell
             ctrl_key === false // clearPrevious
-            );
+        );
     }
 
     renderRow() {
@@ -145,7 +146,9 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 onKeyDown={(e) => this.handleKeydown(e, viewCell)}
                 onWheel={(e) => this.handleMouseWheel(e, viewCell)}
                 style={{
-                    border: this.props.editor.props.cellBorder ? this.props.editor.props.cellBorderStyle : "none",
+                    border: viewCell.equals(this.props.editor.state.focusedViewCell) ?
+                        this.props.editor.props.currentCellBorderStyle :
+                        (this.props.editor.props.cellBorder ? this.props.editor.props.cellBorderStyle : "none"),
                     outline: this.props.editor.props.outlineCell &&
                         viewCell.equals(this.props.editor.state.focusedViewCell) ? this.props.editor.props.outlineCellStyle : 'none',
                     background: this.props.editor.selectionContains(viewCell) ? this.props.editor.props.selectionBackground! : ""
