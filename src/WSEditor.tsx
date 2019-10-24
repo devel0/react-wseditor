@@ -85,8 +85,10 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
     setCellData = (cell: WSEditorCellCoord<T>, newData: any) => {
         const q = this.props.rows.slice();
-        (q[cell.rowIdx] as any)[this.props.cols[cell.colIdx].field] = newData;
+        const row = q[cell.rowIdx];
+        (row as any)[this.props.cols[cell.colIdx].field] = newData;
         this.props.setRows(q);
+        if (this.props.onCellDataChanged) this.props.onCellDataChanged(row, cell, newData);
     }
 
     leaveCellEdit = (viewCell: WSEditorViewCellCoord<T>) => {
