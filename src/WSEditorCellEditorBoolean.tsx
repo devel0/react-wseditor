@@ -2,16 +2,24 @@ import * as React from "react";
 import WSEditor from "./WSEditor";
 import WSEditorCellEditor, { WSEditorCellEditorProps } from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
-import { Checkbox } from "@material-ui/core";
+import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+
+export interface WSEditorCellEditorBooleanOpts {
+    label?: React.ReactNode;
+    labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+}
 
 class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
 {
     cbRef: HTMLButtonElement | null = null;
+    opts?: WSEditorCellEditorBooleanOpts;
 
-    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
+    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>,
+        opts?: WSEditorCellEditorBooleanOpts) {
         super(props, editor, viewCell);
+        this.opts = opts;
     }
 
     isFocused() {
@@ -34,15 +42,22 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
+        const ctl = <Checkbox
+            style={{ width: 10, height: 10, padding: 0 }}
+            icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
+            checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
+            ref={(h: HTMLButtonElement) => this.cbRef = h}
+            checked={this.props.data}
+            onChange={(e) => { this.setData(e.target.checked) }}
+        />;
         return <div style={{ textAlign: "center" }}>
-            <Checkbox
-                style={{ width: 10, height: 10, padding: 0 }}
-                icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
-                checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
-                ref={(h: HTMLButtonElement) => this.cbRef = h}
-                checked={this.props.data}
-                onChange={(e) => { this.setData(e.target.checked) }}
-            />
+            {(this.opts && this.opts.label) ?
+                <FormControlLabel
+                    control={ctl}
+                    labelPlacement={this.opts.labelPlacement}
+                    label={this.opts.label} />
+                :
+                ctl}
         </div>
     }
 }
