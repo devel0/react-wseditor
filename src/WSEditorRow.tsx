@@ -28,6 +28,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 
     rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
         const ctrl_key = e.getModifierState("Control");
+        const shift_key = e.getModifierState("Shift");
 
         let keyHandled = true;
         let focusCell = true;
@@ -102,7 +103,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             keyHandled = false;
 
         if (keyHandled) {
-            if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx));
+            if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx), shift_key);
         }
         else if (cellEditor) {
             if (e.key !== "Control" && e.key !== "Shift" && e.key !== "Alt" && e.key !== "Meta")
