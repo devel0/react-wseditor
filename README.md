@@ -45,7 +45,7 @@ when read hit F5 to debug with chrome ( [more info](https://github.com/devel0/re
 
 ## Example
 
-- [LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/93e4a612fee185bcb67b68058b6f5a15fc7cecc9/test01)
+- [LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/651664b1c665a164589449f75daa3d9c3d28c0ae/test01)
 
 - [test01 SOURCE CODE](https://github.com/devel0/react-wseditor-demo/tree/master/test01)
 
