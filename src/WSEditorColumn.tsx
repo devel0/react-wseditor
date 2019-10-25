@@ -13,4 +13,7 @@ export default interface WSEditorColumn<T> {
     sortDir?: SortDirection;
     sortOrder?: number;
     readonly?: boolean;
+    minWidth?: number | string;
+    maxWidth?: number | string;
+    width?: number | string;
 }

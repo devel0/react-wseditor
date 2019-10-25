@@ -20,10 +20,14 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
     }
 
     handleMouseWheel = (e: React.WheelEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
-        let inc = 0;
-        if (e.deltaY > 0) inc = 1;
-        else if (e.deltaY < 0) inc = -1;
-        this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);
+        const shift_key = e.getModifierState("Shift");
+
+        if (!shift_key) {
+            let inc = 0;
+            if (e.deltaY > 0) inc = 1;
+            else if (e.deltaY < 0) inc = -1;
+            this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);
+        }
     }
 
     rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
@@ -104,6 +108,11 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 
         if (keyHandled) {
             if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx), shift_key);
+            e.preventDefault();
+            if (newColIdx === 0 && this.props.editor.scrollableRef.current && this.props.editor.scrollableRef.current.scrollLeft !== 0) {
+                const el = this.props.editor.scrollableRef.current;
+                el.scrollTo(0, el.scrollTop);
+            }
         }
         else if (cellEditor) {
             if (e.key !== "Control" && e.key !== "Shift" && e.key !== "Alt" && e.key !== "Meta")
@@ -136,8 +145,8 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         const res: React.ReactNode[] = [];
 
         for (let cIdx = 0; cIdx < this.props.editor.props.cols.length; ++cIdx) {
-            const ccol = this.props.editor.props.cols[cIdx];
-            const viewCell = new WSEditorViewCellCoord<T>(this.props.viewRowIdx, ccol.viewColIdx!);
+            const col = this.props.editor.props.cols[cIdx];
+            const viewCell = new WSEditorViewCellCoord<T>(this.props.viewRowIdx, col.viewColIdx!);
 
             res.push(<Grid
                 key={"c" + viewCell.key()} xs item={true}
@@ -146,6 +155,9 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 onKeyDown={(e) => this.handleKeydown(e, viewCell)}
                 onWheel={(e) => this.handleMouseWheel(e, viewCell)}
                 style={{
+                    minWidth: col.minWidth ? col.minWidth : "",
+                    maxWidth: col.maxWidth ? col.maxWidth : "",
+                    width: col.width ? col.width : "",
                     border: viewCell.equals(this.props.editor.state.focusedViewCell) ?
                         this.props.editor.props.currentCellBorderStyle :
                         (this.props.editor.props.cellBorder ? this.props.editor.props.cellBorderStyle : "none"),
@@ -157,8 +169,8 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                     this.props.editor.setViewCellRef(viewCell, r);
                 }}>
                 {
-                    ccol.editor ?
-                        ccol.editor(
+                    col.editor ?
+                        col.editor(
                             { data: this.props.editor.getCellData(viewCell) },
                             this.props.editor,
                             viewCell).render() :

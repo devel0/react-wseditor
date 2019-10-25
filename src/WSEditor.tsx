@@ -26,6 +26,7 @@ export interface WSEditorCellNfo {
 class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T>>
 {
     headerRowRef: React.RefObject<HTMLDivElement>;
+    scrollableRef: React.RefObject<HTMLDivElement>;
     gridRef: React.RefObject<HTMLDivElement>;
 
     static defaultProps = WSEditorDefaultProps;
@@ -34,6 +35,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         super(props);
 
         this.headerRowRef = React.createRef();
+        this.scrollableRef = React.createRef();
         this.gridRef = React.createRef();
 
         this.state = {
@@ -376,9 +378,11 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         }
         if (this.headerRowRef && this.headerRowRef.current) {
             const v = this.headerRowRef.current.clientHeight;
-            if (this.state.headerRowHeight !== v) this.setState({ headerRowHeight: v });
+            if (this.state.headerRowHeight !== v) {
+                this.setState({ headerRowHeight: v });
+                this.recomputeGridHeight();
+            }
         }
-        this.recomputeGridHeight();
     }
 
     componentDidMount() {
@@ -396,27 +400,45 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     }
 
     render() {
-        return <>
+        return <div style={{
+            overflow: "auto"
+        }}>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green" }}>
-                    scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight}
+                    scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight} - HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
                 </div>
                 : null}
             <Grid
                 container={true}
                 direction="row">
-                <Grid item={true} xs >
-                    <Grid container={true} direction="column">
-                        <Grid item={true} ref={this.gridRef}>
-                            <Grid
-                                key={"vr:-1"}
-                                ref={this.headerRowRef}
-                                container={true} direction="row"                            >
-                                {this.renderColumHeaders()}
-                            </Grid>
-                            {this.renderRows()}
-                        </Grid>
-                    </Grid >
+                <Grid item={true} style={{
+                    width: "calc(100% - 24px)"
+                }} >
+                    <div
+                        ref={this.scrollableRef}
+                        style={{
+                            border: this.props.headerBorderStyle,
+                            borderTop: 0,
+                            // borderBottom: 0,
+                            overflow: "auto"
+                        }}>
+                        <div style={{
+                            width: this.props.width ? this.props.width : "100%"
+                        }}>
+
+                            <Grid container={true} direction="column">
+                                <Grid item={true} ref={this.gridRef}>
+                                    <Grid
+                                        key={"vr:-1"}
+                                        ref={this.headerRowRef}
+                                        container={true} direction="row">
+                                        {this.renderColumHeaders()}
+                                    </Grid>
+                                    {this.renderRows()}
+                                </Grid>
+                            </Grid >
+                        </div>
+                    </div>
                 </Grid>
                 {this.props.hideSlider !== true ?
                     <Grid item={true}
@@ -463,7 +485,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
                             }} />
                     </Grid> : null}
             </Grid>
-        </>
+        </div >
     }
     //
     // #endregion
