@@ -10,6 +10,14 @@
 npm install --save react-wseditor
 ```
 
+## Example
+
+- live [DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/919d0a6edc6908ced9ffd6616fa3d90860d4d88c/test01)
+
+- example [SOURCE](https://github.com/devel0/react-wseditor-demo/tree/master/test01)
+
+![](doc/react-wseditor-example.png)
+
 ## Features
 
 - virtualized grid ( allow to manage millions of rows )
@@ -25,14 +33,6 @@ npm install --save react-wseditor
 ## How to contribute (quickstart)
 
 to establish development environment to contribute with PR see [here](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md#how-to-contribute-quickstart)
-
-## Example
-
-- [LIVE DEMO](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/651664b1c665a164589449f75daa3d9c3d28c0ae/test01)
-
-- [test01 SOURCE CODE](https://github.com/devel0/react-wseditor-demo/tree/master/test01)
-
-![](doc/react-wseditor-example.png)
 
 ## how this project was built
 
