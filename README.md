@@ -21,14 +21,31 @@ npm install --save react-wseditor
 ## Features
 
 - virtualized grid ( allow to manage millions of rows )
-- [text](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorText.tsx)/[numeric](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorNumber.tsx)/[boolean](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorBoolean.tsx) cell controls
-- easy to extend from base [cell editor](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditor.tsx)
-- programmatic control of editor ( see example add,del rows and scroll )
-- cell/row selection mode ( multiple selection through mouse and ctrl key )
+- [text][1]/[numeric][2]/[boolean][3] cell controls
+- easy to extend from base [cell editor][4]
+- programmatic control of editor ( see example [add][5], [del][6] rows and scroll )
+- [cell/row][7] selection mode ( [multiple selection][8] through mouse and ctrl key )
 - worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end, direct editing or F2, canc to delete cell content )
-- sortable columns ( hold shift for multilevel sort )
-- scrollbar
-- [options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
+- sortable columns ( hold shift for multilevel sort ) with optional [custom sort][9]
+- [column width][10] adjustable ( % or fixed )
+- scroll horizontal if set editor width in an [overflow div][11]
+- scrollbar [slider][12] can be hidden
+- [readonly][13] mode
+- [more ui style options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
+
+[1]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorText.tsx
+[2]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorNumber.tsx
+[3]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorBoolean.tsx
+[4]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditor.tsx
+[5]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L249
+[6]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L257
+[7]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L269
+[8]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L270
+[9]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L62
+[10]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L61
+[11]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L272
+[12]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L40
+[13]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L32
 
 ## How to contribute (quickstart)
 
