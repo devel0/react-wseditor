@@ -19,10 +19,6 @@ export interface WSEditorStatus<T> {
     selection: WSEditorSelection<T>;
 }
 
-export interface WSEditorCellNfo {
-    isValid: boolean;
-}
-
 class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T>>
 {
     headerRowRef: React.RefObject<HTMLDivElement>;

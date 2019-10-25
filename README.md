@@ -52,9 +52,12 @@ npm install --save react-wseditor
 to establish development environment to contribute with PR see [here](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md#how-to-contribute-quickstart)
 
 development keynotes:
-- [sample][1]
+- editor [props][100]
+- editor non templated [optional props][101]
 
-[1]: https://github.com/devel0/react-wseditor/blob/0721ca0e93e47215ea60b5d9c948fcdf79e156e0/src/WSEditorProps.tsx#L6
+
+[100]: https://github.com/devel0/react-wseditor/blob/0721ca0e93e47215ea60b5d9c948fcdf79e156e0/src/WSEditorProps.tsx#L6
+[101]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L4
 
 ## how this project was built
 
