@@ -10,10 +10,6 @@
 npm install --save react-wseditor
 ```
 
-## How to contribute (quickstart)
-
-to establish development environment to contribute with PR see [here](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md#how-to-contribute-quickstart)
-
 ## Features
 
 - virtualized grid ( allow to manage millions of rows )
@@ -25,6 +21,10 @@ to establish development environment to contribute with PR see [here](https://gi
 - sortable columns ( hold shift for multilevel sort )
 - scrollbar
 - [options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
+
+## How to contribute (quickstart)
+
+to establish development environment to contribute with PR see [here](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md#how-to-contribute-quickstart)
 
 ## Example
 
