@@ -1,4 +1,4 @@
-import WSEditorColumn from './WSEditorColumn';
+import WSEditorColumn, { SortDirection } from './WSEditorColumn';
 import WSEditor from './WSEditor';
 import WSEditorCellEditor, { WSEditorCellEditorProps } from './WSEditorCellEditor';
 import WSEditorCellEditorText from './WSEditorCellEditorText';
@@ -9,5 +9,5 @@ import WSEditorSelection, { WSEditorSelectMode } from './WSEditorSelection';
 
 export {
   WSEditor, WSEditorCellEditor, WSEditorCellEditorBoolean, WSEditorCellEditorNumber, WSEditorCellEditorProps, WSEditorCellEditorText,
-  WSEditorColumn, WSEditorSelection, WSEditorSelectMode, WSEditorViewCellCoord
+  WSEditorColumn, WSEditorSelection, WSEditorSelectMode, WSEditorViewCellCoord, SortDirection
 };

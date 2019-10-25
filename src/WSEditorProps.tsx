@@ -3,8 +3,7 @@ import { WSEditorSelectMode } from "./WSEditorSelection";
 import { WSEditorPropsOpts } from "./WSEditorDefaultProps";
 import WSEditorCellCoord from "./WSEditorCellCoord";
  
-export default interface WSEditorProps<T> extends WSEditorPropsOpts {
-    sample3?: number;
+export default interface WSEditorProps<T> extends WSEditorPropsOpts {    
     rows: T[];
     setRows: (newRows: any[]) => void;
     cols: WSEditorColumn<T>[];
