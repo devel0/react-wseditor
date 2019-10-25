@@ -51,13 +51,62 @@ npm install --save react-wseditor
 
 to establish development environment to contribute with PR see [here](https://github.com/devel0/react-wseditor-demo/blob/master/test01-dev/README.md#how-to-contribute-quickstart)
 
-development keynotes:
-- editor [props][100]
-- editor non templated [optional props][101]
+## development keynotes
 
+to allow grid manage tons of rows was required by design to react only for view cells ( virtualized grid ) and manage mapping between rows data and cell views by pointing and converting view cell row index to data cell row index by a scroll offset information stored in editor state.
+
+- editor
+    - [props][100]
+    - non templated [optional props][101]
+    - [state][102] with info about scroll offset, focused view cell, selection, grid/header height
+    - all displayed view cells are referenced through
+        - a [map][103] for their [key][104] to cell [div element][108]
+        - a [map][107] for their [key][104] to cell [editor element][]
+    - [view cell coord][105] can be converted to [data cell coord][106]
+    - grid is created following this flow:
+        - [main grid][110]
+            - first row [headers][112]
+            - [view rows][113] render that render in turn each [row editor][114]
+        - [side slider][111]
+- [row editor][115] is the point where [keyboard][116] (2)[117], [mouse][118] (2)[119] interactions happens
+    - if key handled by engine then [current cell][124] could change and [editor set current cell][125] handler can handle to extend or replace current selection while row editor [represent cell/row selection][126] by changing style
+    - finally row render [each cell][120] choosing between [default or custom][121] cell editor
+- columns
+    - toggle [sort][122] uses [editor sort handler][123]
+- other keyboard/mouse managements points
+    - [slider][127]
+    - [horizontal scroll][128] and [workaround][129]
 
 [100]: https://github.com/devel0/react-wseditor/blob/0721ca0e93e47215ea60b5d9c948fcdf79e156e0/src/WSEditorProps.tsx#L6
 [101]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L4
+[102]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L37
+[103]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L49
+[104]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorViewCellCoord.tsx#L18
+[105]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorViewCellCoord.tsx#L16
+[106]: https://github.com/devel0/react-wseditor/blob/d33c9cb0d8402aca0002b411fbe3910f5d6484cf/src/WSEditorCellCoord.tsx#L15
+[107]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L61
+[108]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L169
+[109]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorCellEditor.tsx#L26
+[110]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L413-L441
+[111]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L442-L485
+[112]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L430-L435
+[113]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L339
+[114]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L349
+[115]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L16
+[116]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L33
+[117]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L123
+[118]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L22
+[119]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L133
+[120]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L147
+[121]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L171-L181
+[122]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorColumnHeader.tsx#L28
+[123]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L220
+[124]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L109
+[125]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L156
+[126]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L166
+[127]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L454-L475
+[128]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L25
+[129]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L112
 
 ## how this project was built
 
