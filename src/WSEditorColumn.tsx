@@ -12,6 +12,7 @@ export default interface WSEditorColumn<T> {
     viewColIdx?: number;
     sortDir?: SortDirection;
     sortOrder?: number;
+    sortFn?: (a: T, b: T, dir: SortDirection) => number;
     readonly?: boolean;
     minWidth?: number | string;
     maxWidth?: number | string;

@@ -315,17 +315,20 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         const sortBy = this.props.cols.filter(w => w.sortDir !== undefined).sort(w => w.sortOrder ? w.sortOrder : -1);
         let q = this.props.rows.slice();
         for (let si = sortBy.length - 1; si >= 0; --si) {
-            const sortByNfo = sortBy[si];
-            if (sortByNfo.sortDir === undefined) continue;
-            q = q.sort((a: any, b: any) => {
-                const valA = a[sortByNfo.field];
-                const valB = b[sortByNfo.field];
-                const ascRes = valA < valB ? -1 : 1;
-                if (sortByNfo.sortDir === SortDirection.Descending)
-                    return -ascRes;
-                else
-                    return ascRes;
-            });
+            const col_sortBy = sortBy[si];
+            if (col_sortBy.sortDir === undefined) continue;
+            if (col_sortBy.sortFn)
+                q = q.sort((a: T, b: T) => col_sortBy.sortFn!(a, b, col_sortBy.sortDir || SortDirection.Ascending));
+            else
+                q = q.sort((a: any, b: any) => {
+                    const valA = a[col_sortBy.field];
+                    const valB = b[col_sortBy.field];
+                    const ascRes = valA < valB ? -1 : 1;
+                    if (col_sortBy.sortDir === SortDirection.Descending)
+                        return -ascRes;
+                    else
+                        return ascRes;
+                });
         }
 
         this.props.setRows(q);
