@@ -68,7 +68,7 @@ to allow grid manage tons of rows was required by design to react only for view 
             - first row [headers][112]
             - [view rows][113] render that render in turn each [row editor][114]
         - [side slider][111]
-- [row editor][115] is the point where [keyboard][116] (2)[117], [mouse][118] (2)[119] interactions happens
+- [row editor][115] is the point where [keyboard][116] [(2)][117], [mouse][118] [(2)][119] interactions happens
     - if key handled by engine then [current cell][124] could change and [editor set current cell][125] handler can handle to extend or replace current selection while row editor [represent cell/row selection][126] by changing style
     - finally row render [each cell][120] choosing between [default or custom][121] cell editor
 - columns
