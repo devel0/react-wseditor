@@ -61,7 +61,7 @@ to allow grid manage tons of rows was required by design to react only for view 
     - [state][102] with info about scroll offset, focused view cell, selection, grid/header height
     - all displayed view cells are referenced through
         - a [map][103] for their [key][104] to cell [div element][108]
-        - a [map][107] for their [key][104] to cell [editor element][]
+        - a [map][107] for their [key][104] to cell [editor element][109]
     - [view cell coord][105] can be converted to [data cell coord][106]
     - grid is created following this flow:
         - [main grid][110]
