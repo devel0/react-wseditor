@@ -386,20 +386,22 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
         }
         this.recomputeGridHeight();
-        
+
         window.addEventListener("resize", () => {
             if (this.headerRowRef && this.headerRowRef.current) {
                 this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
-            }            
+            }
             this.recomputeGridHeight();
         });
     }
 
     render() {
         return <>
-            <div style={{ marginBottom: "1em", color: "green" }}>
-                scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight}
-            </div>
+            {this.props.debug === true ?
+                <div style={{ marginBottom: "1em", color: "green" }}>
+                    scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight}
+                </div>
+                : null}
             <Grid
                 container={true}
                 direction="row">

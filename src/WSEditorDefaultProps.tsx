@@ -16,6 +16,7 @@ export interface WSEditorPropsOpts {
     cellMargin?: string | number;
     sliderWheelDivisionStep?: number;
     cellLineHeight?: string | number;
+    debug?: boolean;
 }
 
 export const WSEditorDefaultProps: WSEditorPropsOpts = {
@@ -33,4 +34,5 @@ export const WSEditorDefaultProps: WSEditorPropsOpts = {
     cellMargin: 2,
     sliderWheelDivisionStep: 15,
     cellLineHeight: 1,
+    debug: false,
 };
