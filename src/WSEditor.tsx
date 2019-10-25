@@ -23,7 +23,7 @@ export interface WSEditorCellNfo {
     isValid: boolean;
 }
 
-class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
+class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T>>
 {
     headerRowRef: React.RefObject<HTMLDivElement>;
     gridRef: React.RefObject<HTMLDivElement>;
@@ -77,7 +77,18 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
     getCellData = (viewCell: WSEditorViewCellCoord<T>) => {
         const cell = viewCell.getCellCoord(this.state.scrollOffset);
-        return (this.props.rows[cell.rowIdx] as any)[this.props.cols[cell.colIdx].field];
+        const rowsCount = this.props.rows.length;
+        if (cell.rowIdx >= rowsCount) {
+            console.log("bound check failed");
+            return "";
+        }
+        else {
+            const d = this.props.rows[cell.rowIdx] as any;
+            if (d)
+                return (d)[this.props.cols[cell.colIdx].field];
+            else
+                return "";
+        }
     }
 
     setViewCellData = (viewCell: WSEditorViewCellCoord<T>, newData: any) =>
@@ -171,12 +182,13 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
 
         const newCell = new WSEditorCellCoord<T>(newRowIdx, newColIdx);
         const viewCell = newCell.getViewCellCoord(scrollOffset);
+        const multi = this.props.selectionModeMulti === true;
 
         this.setState({
             scrollOffset: scrollOffset,
             focusedViewCell: viewCell,
-            selection: endingCell === true ? this.state.selection.extendsTo(newCell) :
-                clearPreviousSel ?
+            selection: (multi && endingCell === true) ? this.state.selection.extendsTo(newCell) :
+                (!multi || clearPreviousSel) ?
                     new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(newCell, newCell)]) :
                     this.state.selection.add(newCell)
         });
@@ -326,9 +338,11 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
     renderRows() {
         const res: React.ReactNode[] = [];
 
+        const rowsCount = this.props.rows.length;
+
         for (let viewRowIdx = 0; viewRowIdx < this.props.viewRowCount!; ++viewRowIdx) {
             const ridx = this.state.scrollOffset + viewRowIdx;
-            if (ridx < 0 || ridx >= this.props.rows.length) continue;
+            if (ridx < 0 || ridx >= rowsCount) continue;
 
             res.push(<Grid key={"vr:" + viewRowIdx} container={true} direction="row">
                 <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
@@ -338,38 +352,69 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
         return res;
     }
 
-    componentDidUpdate() {
+    static getDerivedStateFromProps<T>(nextProps: Readonly<WSEditorProps<T>>, prevState: any) {
+        return null;
+    }
+
+    recomputeGridHeight() {
+        if (this.gridRef && this.gridRef.current) {
+            const v = this.gridRef.current.clientHeight;
+
+            const children = this.gridRef.current.children;
+            let realGridHeight = 0;
+            for (let ci = 0; ci < children.length; ++ci) {
+                realGridHeight += children.item(ci)!.clientHeight;
+            }
+            this.setState({ gridHeight: realGridHeight });
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<WSEditorProps<T>>, prevState: Readonly<WSEditorStatus<T>>) {
+        const rowsCount = this.props.rows.length;
+        if (this.state.scrollOffset + this.props.viewRowCount! >= rowsCount) {
+            this.setScrollOffset(rowsCount - this.props.viewRowCount!);
+        }
         if (this.headerRowRef && this.headerRowRef.current) {
             const v = this.headerRowRef.current.clientHeight;
             if (this.state.headerRowHeight !== v) this.setState({ headerRowHeight: v });
         }
-        if (this.gridRef && this.gridRef.current) {
-            const v = this.gridRef.current.clientHeight;
-            if (this.state.gridHeight !== v) this.setState({ gridHeight: v });
-        }
+        this.recomputeGridHeight();
+        // if (this.gridRef && this.gridRef.current) {
+        //     const v = this.gridRef.current.clientHeight;
+        //     if (this.state.gridHeight !== v) {
+
+        //         const children = this.gridRef.current.children;
+        //         let realGridHeight = 0;
+        //         for (let ci = 0; ci < children.length; ++ci) {
+        //             realGridHeight += children.item(ci)!.clientHeight;
+        //         }
+        //         this.setState({ gridHeight: realGridHeight });
+        //     }
+        // }
     }
 
     componentDidMount() {
         if (this.headerRowRef && this.headerRowRef.current) {
             this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
         }
-        if (this.gridRef && this.gridRef.current) {
-            this.setState({ gridHeight: this.gridRef.current.clientHeight });
-        }
+        this.recomputeGridHeight();
+        
         window.addEventListener("resize", () => {
             if (this.headerRowRef && this.headerRowRef.current) {
                 this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
-            }
-            if (this.gridRef && this.gridRef.current) {
-                this.setState({ gridHeight: this.gridRef.current.clientHeight });
-            }
+            }            
+            this.recomputeGridHeight();
         });
     }
 
     render() {
         return <>
-            scrollOffset: {this.state.scrollOffset}   rowsCount: {this.props.rows.length}
-            <Grid container={true} direction="row">
+            <div style={{ marginBottom: "1em", color: "green" }}>
+                scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight}
+            </div>
+            <Grid
+                container={true}
+                direction="row">
                 <Grid item={true} xs >
                     <Grid container={true} direction="column">
                         <Grid item={true} ref={this.gridRef}>
@@ -383,26 +428,50 @@ class WSEditor<T> extends React.Component<WSEditorProps<T>, WSEditorStatus<T>>
                         </Grid>
                     </Grid >
                 </Grid>
-                <Grid item={true}>
-                    <Slider
-                        orientation="vertical"
-                        min={0}
-                        max={this.props.rows.length - this.props.viewRowCount!}
-                        track={false}
-                        value={this.props.rows.length - this.props.viewRowCount! - this.state.scrollOffset}
-                        onChange={(e, v) => {
-                            const n = v as number;
-                            if (!isNaN(n))
-                                this.setState({
-                                    scrollOffset: Math.max(this.props.rows.length - this.props.viewRowCount! - n, 0)
-                                });
-                        }}
+                {this.props.hideSlider !== true ?
+                    <Grid item={true}
                         style={{
                             marginTop: this.state.headerRowHeight,
-                            height: this.state.gridHeight - this.state.headerRowHeight,
-                            marginBottom: "1em"
-                        }} />
-                </Grid>
+                            maxHeight: this.state.gridHeight - this.state.headerRowHeight
+                        }}>
+                        <Slider
+                            orientation="vertical"
+                            min={0}
+                            max={this.props.rows.length - this.props.viewRowCount!}
+                            track={false}
+                            value={this.props.rows.length - this.props.viewRowCount! - this.state.scrollOffset}
+                            onKeyDown={(e) => {
+                                if (e.key === "Home") {
+                                    this.setState({ scrollOffset: 0 });
+                                    e.preventDefault();
+                                } else if (e.key === "End") {
+                                    this.setState({ scrollOffset: this.props.rows.length - this.props.viewRowCount! });
+                                    e.preventDefault();
+                                }
+                            }}
+                            onWheel={(e) => {
+                                const rowsCount = this.props.rows.length;
+                                const step = Math.trunc(rowsCount / this.props.sliderWheelDivisionStep!);
+                                if (e.deltaY > 0) {
+                                    this.setState({
+                                        scrollOffset: Math.max(0, Math.min(rowsCount - this.props.viewRowCount!, this.state.scrollOffset + step))
+                                    })
+                                } else if (e.deltaY < 0) {
+                                    this.setState({
+                                        scrollOffset: Math.max(0, Math.min(rowsCount - this.props.viewRowCount!, this.state.scrollOffset - step))
+                                    })
+                                }
+                            }}
+                            onChange={(e, v) => {
+                                const n = v as number;
+                                if (!isNaN(n)) {
+                                    const rowsCount = this.props.rows.length;
+                                    this.setState({
+                                        scrollOffset: Math.max(rowsCount - this.props.viewRowCount! - n, 0)
+                                    });
+                                }
+                            }} />
+                    </Grid> : null}
             </Grid>
         </>
     }

@@ -1,4 +1,5 @@
 import WSEditorCellCoord from "./WSEditorCellCoord";
+import WSEditor from "./WSEditor";
 
 class WSEditorViewCellCoord<T> {
     private _viewRowIdx: number;
@@ -27,6 +28,8 @@ class WSEditorViewCellCoord<T> {
     equals(other: WSEditorViewCellCoord<T>) {
         return this.viewRowIdx === other.viewRowIdx && this.viewColIdx === other.viewColIdx;
     }
+
+    getRow = (editor: WSEditor<T>) => editor.props.rows[this.getCellCoord(editor.state.scrollOffset).rowIdx];    
 
     toString() {
         return this.key();

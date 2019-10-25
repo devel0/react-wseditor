@@ -5,10 +5,12 @@ import WSEditorRow from "./WSEditorRow";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+import { TextAlignProperty } from "csstype";
 
 export interface WSEditorCellEditorBooleanOpts {
     label?: React.ReactNode;
     labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+    textAlign?: TextAlignProperty;
 }
 
 class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
@@ -50,7 +52,7 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
             checked={this.props.data}
             onChange={(e) => { this.setData(e.target.checked) }}
         />;
-        return <div style={{ textAlign: "center" }}>
+        return <div style={{ textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" }}>
             {(this.opts && this.opts.label) ?
                 <FormControlLabel
                     control={ctl}

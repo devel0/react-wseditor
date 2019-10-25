@@ -13,13 +13,16 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
 {
     editor: WSEditor<T>;
     viewCell: WSEditorViewCellCoord<T>;
+    customRender?: (cellEditor: WSEditorCellEditor<T, S>) => JSX.Element;
     private directEditing: boolean = true;
 
-    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
+    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>,
+        customRender?: (cellEditor: WSEditorCellEditor<T, S>) => JSX.Element) {
         super(props);
 
         this.editor = editor;
         this.viewCell = viewCell;
+        this.customRender = customRender;
         this.editor.setCellEditor(viewCell, this);
     }
 
@@ -52,7 +55,10 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
     }
 
     cellContentRender() {
-        return <Typography style={{ lineHeight: 1 }}>{this.props.data}</Typography>
+        if (this.customRender)
+            return this.customRender(this);
+        else
+            return <Typography style={{ lineHeight: this.editor.props.cellLineHeight! }}>{this.props.data}</Typography>
     }
 
     onMousedown(e: React.MouseEvent<HTMLDivElement>) {
@@ -61,7 +67,7 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
 
     render() {
         return <Grid item={true}
-            style={{ margin: 2 }}
+            style={{ margin: this.editor.props.cellMargin }}
             onMouseDown={(e) => this.onMousedown(e)}>
             {this.cellContentRender()}
         </Grid>
