@@ -379,18 +379,6 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             if (this.state.headerRowHeight !== v) this.setState({ headerRowHeight: v });
         }
         this.recomputeGridHeight();
-        // if (this.gridRef && this.gridRef.current) {
-        //     const v = this.gridRef.current.clientHeight;
-        //     if (this.state.gridHeight !== v) {
-
-        //         const children = this.gridRef.current.children;
-        //         let realGridHeight = 0;
-        //         for (let ci = 0; ci < children.length; ++ci) {
-        //             realGridHeight += children.item(ci)!.clientHeight;
-        //         }
-        //         this.setState({ gridHeight: realGridHeight });
-        //     }
-        // }
     }
 
     componentDidMount() {
