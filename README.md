@@ -72,7 +72,7 @@ to allow grid manage tons of rows was required by design to react only for view 
     - if key handled by engine then [current cell][124] could change and [editor set current cell][125] handler can handle to extend or replace current selection while row editor [represent cell/row selection][126] by changing style
     - finally row render [each cell][120] choosing between [default or custom][121] cell editor
 - columns
-    - toggle [sort][122] uses [editor sort handler][123] and can be [customized][129]
+    - toggle [sort][122] uses [editor sort handler][123] and can be [customized][9]
 - other keyboard/mouse managements points
     - [slider][127]
     - [horizontal scroll][128] and [workaround][129]
@@ -107,7 +107,6 @@ to allow grid manage tons of rows was required by design to react only for view 
 [127]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L454-L475
 [128]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L25
 [129]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L112
-[129]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L62-L75
 
 ## how this project was built
 
