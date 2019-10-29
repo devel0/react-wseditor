@@ -6,17 +6,14 @@ export interface WSEditorPropsOpts {
     viewRowCountFixed?: boolean;
     selectionMode?: WSEditorSelectMode;
     selectionModeMulti?: boolean;
-    outlineCell?: boolean;
-    outlineCellStyle?: string;
     readonly?: boolean;
-    cellBorder?: boolean;
-    cellBorderStyle?: string;
     headerBorderStyle?: string;
-    currentCellBorderStyle?: string;
-    selectionBackground?: string;
+    currentCellContainerStyle?: CSSProperties;
+    selectionBackground?: CSSProperties;
     hideSlider?: boolean;
     cellMargin?: string | number;
     sliderWheelDivisionStep?: number;
+    cellContainerStyleBase?: CSSProperties;
     cellContainerStyle?: CSSProperties;
     cellControlStyle?: CSSProperties;
     debug?: boolean;
@@ -31,18 +28,15 @@ export const WSEditorDefaultProps: WSEditorPropsOpts = {
     selectionMode: WSEditorSelectMode.Cell,
     selectionModeMulti: true,
     readonly: false,
-    outlineCell: false,
-    outlineCellStyle: "2px solid rgba(56,90,162,0.8)",
     headerBorderStyle: "1px solid #aeaeae",
-    cellBorder: true,
-    cellBorderStyle: "1px solid #eeeeee",
-    currentCellBorderStyle: "1px solid rgba(56,90,162,0.8)",
-    selectionBackground: "rgba(56,90,162,0.2)",
+    currentCellContainerStyle: { border: "1px solid rgba(56,90,162,0.8)" },
+    cellContainerStyleBase: { border: "1px solid #eeeeee" },
+    cellContainerStyle: {},
+    cellControlStyle: {},
+    selectionBackground: { background: "rgba(56,90,162,0.2)" },
     hideSlider: false,
     cellMargin: 2,
     sliderWheelDivisionStep: 15,
-    cellContainerStyle: {},
-    cellControlStyle: {},
     debug: false,
     width: "100%"
 };

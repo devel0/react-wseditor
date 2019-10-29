@@ -4,6 +4,7 @@ import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditor from "./WSEditor";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import WSEditorCellCoord from "./WSEditorCellCoord";
+import { WSEditorSelectMode } from "./WSEditorSelection";
 
 export interface WSEditorRowProps<T> {
     viewRowIdx: number;
@@ -23,8 +24,8 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             let inc = 0;
             if (e.deltaY > 0) inc = 1;
             else if (e.deltaY < 0) inc = -1;
-            this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);            
-        }        
+            this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);
+        }
     }
 
     rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
@@ -145,23 +146,25 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             const col = this.props.editor.props.cols[cIdx];
             const viewCell = new WSEditorViewCellCoord<T>(this.props.viewRowIdx, col.viewColIdx!);
 
+            const cellStyle = Object.assign({}, {
+                minWidth: col.minWidth ? col.minWidth : "",
+                maxWidth: col.maxWidth ? col.maxWidth : "",
+                width: col.width ? col.width : "",
+                outline: 0,
+            },
+                this.props.editor.selectionContains(viewCell) ? this.props.editor.props.selectionBackground! : {},
+                viewCell.equals(this.props.editor.state.focusedViewCell) ?
+                    this.props.editor.props.currentCellContainerStyle :
+                    this.props.editor.props.cellContainerStyleBase
+            );
+
             res.push(<Grid
                 key={"c" + viewCell.key()} xs item={true}
                 tabIndex={0}
                 onMouseDown={(e) => this.handleMouseDown(e, viewCell)}
                 onKeyDown={(e) => this.handleKeydown(e, viewCell)}
                 onWheel={(e) => this.handleMouseWheel(e, viewCell)}
-                style={{
-                    minWidth: col.minWidth ? col.minWidth : "",
-                    maxWidth: col.maxWidth ? col.maxWidth : "",
-                    width: col.width ? col.width : "",
-                    border: viewCell.equals(this.props.editor.state.focusedViewCell) ?
-                        this.props.editor.props.currentCellBorderStyle :
-                        (this.props.editor.props.cellBorder ? this.props.editor.props.cellBorderStyle : "none"),
-                    outline: this.props.editor.props.outlineCell &&
-                        viewCell.equals(this.props.editor.state.focusedViewCell) ? this.props.editor.props.outlineCellStyle : 'none',
-                    background: this.props.editor.selectionContains(viewCell) ? this.props.editor.props.selectionBackground! : ""
-                }}
+                style={cellStyle}
                 ref={(r) => {
                     this.props.editor.setViewCellRef(viewCell, r);
                 }}>
