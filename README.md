@@ -21,8 +21,9 @@ npm install --save react-wseditor
 ## Features
 
 - virtualized grid ( allow to manage millions of rows )
-- [text][1]/[numeric][2]/[boolean][3] cell controls
+- [text][1]/[numeric][2]/[boolean][3] or [inline custom][15] cell controls
 - easy to extend from base [cell editor][4]
+- cell container and control [styles][14] can be overriden
 - programmatic control of editor ( see example [add][5], [del][6] rows and scroll )
 - [cell/row][7] selection mode ( [multiple selection][8] through mouse and ctrl key )
 - worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end, direct editing or F2, canc to delete cell content )
@@ -46,6 +47,8 @@ npm install --save react-wseditor
 [11]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L272
 [12]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L40
 [13]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L32
+[14]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L279-L280
+[15]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L53-L55
 
 ## How to contribute (quickstart)
 
