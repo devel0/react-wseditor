@@ -93,10 +93,16 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 this.props.editor.setCellData(cell.value, "");
                 cell = cells.next();
             }
+        } else if (e.key === "Tab") {
+            if (newColIdx + 1 < this.props.editor.props.cols.length)
+                ++newColIdx;
+            else {
+                ++newRowIdx;
+                newColIdx = 0;
+            }
         } else if (e.key === "Escape" ||
             e.key === "F1" || e.key === "F3" || e.key === "F4" || e.key === "F5" || e.key === "F6" ||
             e.key === "F7" || e.key === "F8" || e.key === "F9" || e.key === "F10" || e.key === "F11" || e.key === "F12") {
-
         } else if (e.key === "F2") {
             this.props.editor.focusCellEditor(viewCell);
             focusCell = false;
