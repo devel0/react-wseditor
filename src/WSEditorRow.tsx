@@ -1,12 +1,9 @@
 import * as React from "react";
-import { Grid, Button, Box } from '@material-ui/core';
-import WSEditorColumn from "./WSEditorColumn";
+import { Grid } from '@material-ui/core';
 import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditor from "./WSEditor";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import WSEditorCellCoord from "./WSEditorCellCoord";
-import { CSSProperties, withStyles } from "@material-ui/styles";
-import WSEditorSelection, { WSEditorSelectMode } from "./WSEditorSelection";
 
 export interface WSEditorRowProps<T> {
     viewRowIdx: number;
@@ -15,9 +12,9 @@ export interface WSEditorRowProps<T> {
 
 class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 {
-    constructor(props: WSEditorRowProps<T>) {
-        super(props);
-    }
+    // constructor(props: WSEditorRowProps<T>) {
+    //     super(props);
+    // }
 
     handleMouseWheel = (e: React.WheelEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
         const shift_key = e.getModifierState("Shift");
@@ -26,8 +23,8 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             let inc = 0;
             if (e.deltaY > 0) inc = 1;
             else if (e.deltaY < 0) inc = -1;
-            this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);
-        }
+            this.props.editor.setScrollOffset(this.props.editor.state.scrollOffset + inc);            
+        }        
     }
 
     rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
@@ -171,7 +168,11 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 {
                     col.editor ?
                         col.editor(
-                            { data: this.props.editor.getCellData(viewCell) },
+                            {
+                                data: this.props.editor.getCellData(viewCell),
+                                cellContainerStyle: col.cellContainerStyle,
+                                cellControlStyle: col.cellControlStyle
+                            },
                             this.props.editor,
                             viewCell).render() :
                         new WSEditorCellEditor(

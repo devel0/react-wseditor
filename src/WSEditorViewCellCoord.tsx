@@ -13,6 +13,9 @@ class WSEditorViewCellCoord<T> {
     get viewRowIdx() { return this._viewRowIdx; }
     get viewColIdx() { return this._viewColIdx; }
 
+    getCol(editor: WSEditor<T>) { return editor.props.cols[this._viewColIdx]; }
+    getRow(editor: WSEditor<T>) { return editor.props.rows[this.getCellCoord(editor.state.scrollOffset).rowIdx]; }
+
     getCellCoord = (scrollOffset: number) => new WSEditorCellCoord<T>(scrollOffset + this._viewRowIdx, this._viewColIdx);
 
     key = () => this._viewRowIdx + "_" + this._viewColIdx;
@@ -27,9 +30,7 @@ class WSEditorViewCellCoord<T> {
 
     equals(other: WSEditorViewCellCoord<T>) {
         return this.viewRowIdx === other.viewRowIdx && this.viewColIdx === other.viewColIdx;
-    }
-
-    getRow = (editor: WSEditor<T>) => editor.props.rows[this.getCellCoord(editor.state.scrollOffset).rowIdx];    
+    }    
 
     toString() {
         return this.key();

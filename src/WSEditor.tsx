@@ -1,15 +1,14 @@
 import * as React from "react";
 import { Grid, Slider } from '@material-ui/core';
-import WSEditorColumn, { SortDirection } from "./WSEditorColumn";
+import { SortDirection } from "./WSEditorColumn";
 import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
 import WSEditorColumnHeader from "./WSEditorColumnHeader";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import WSEditorCellCoord from "./WSEditorCellCoord";
-import WSEditorSelection, { WSEditorSelectMode, WSEditorSelectionRange } from "./WSEditorSelection";
+import WSEditorSelection, { WSEditorSelectionRange } from "./WSEditorSelection";
 import WSEditorProps from "./WSEditorProps";
 import { WSEditorDefaultProps } from "./WSEditorDefaultProps";
-import { RowingSharp } from "@material-ui/icons";
 
 export interface WSEditorStatus<T> {
     scrollOffset: number;
@@ -113,18 +112,14 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     //
 
     /** add a row and return its index */
-    addRow = (newRow: T, autofocus: boolean = false): number => {
-        const newRowIdx = this.props.rows.length;
+    addRow = (newRow: T): number => {
+        const addedRowIdx = this.props.rows.length;        
 
         const q = this.props.rows.slice();
         q.push(newRow);
         this.props.setRows(q);
-
-        /*if (autofocus) {
-            this.setState({ scrollOffset: 12 });
-        }*/
-
-        return newRowIdx;
+        
+        return addedRowIdx;
     }
 
     deleteRows = (rowIdxs: Set<number>) => {
@@ -336,8 +331,15 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     //============================================
     // #region RENDER
     //        
+    initialRender: boolean = true;
+
     renderRows() {
         const res: React.ReactNode[] = [];
+
+        if (this.initialRender && this.props.rows.length > 0) {
+            this.initialRender = false;
+            this.sortRows();
+        }
 
         const rowsCount = this.props.rows.length;
 
@@ -353,13 +355,12 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         return res;
     }
 
-    static getDerivedStateFromProps<T>(nextProps: Readonly<WSEditorProps<T>>, prevState: any) {
-        return null;
-    }
+    // static getDerivedStateFromProps<T>() {        
+    //     return null;
+    // }
 
     recomputeGridHeight() {
         if (this.gridRef && this.gridRef.current) {
-            const v = this.gridRef.current.clientHeight;
 
             const children = this.gridRef.current.children;
             let realGridHeight = 0;
@@ -399,9 +400,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     }
 
     render() {
-        return <div style={{
-            overflow: "auto"
-        }}>
+        return <div>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green" }}>
                     scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight} - HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
@@ -467,10 +466,12 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
                                     this.setState({
                                         scrollOffset: Math.max(0, Math.min(rowsCount - this.props.viewRowCount!, this.state.scrollOffset + step))
                                     })
+                                    e.preventDefault();
                                 } else if (e.deltaY < 0) {
                                     this.setState({
                                         scrollOffset: Math.max(0, Math.min(rowsCount - this.props.viewRowCount!, this.state.scrollOffset - step))
                                     })
+                                    e.preventDefault();
                                 }
                             }}
                             onChange={(e, v) => {
@@ -484,7 +485,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
                             }} />
                     </Grid> : null}
             </Grid>
-        </div >
+        </div>
     }
     //
     // #endregion

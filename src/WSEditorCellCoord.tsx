@@ -1,4 +1,5 @@
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+import WSEditor from "./WSEditor";
 
 class WSEditorCellCoord<T> {
     private _rowIdx: number;
@@ -11,6 +12,9 @@ class WSEditorCellCoord<T> {
 
     get rowIdx() { return this._rowIdx; }
     get colIdx() { return this._colIdx; }
+
+    getCol(editor: WSEditor<T>) { return editor.props.cols[this._colIdx]; }
+    getRow(editor: WSEditor<T>) { return editor.props.rows[this._rowIdx]; }
 
     getViewCellCoord = (scrollOffset: number) => new WSEditorViewCellCoord<T>(this._rowIdx - scrollOffset, this._colIdx);
 

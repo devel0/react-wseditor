@@ -1,5 +1,5 @@
-import WSEditorColumn from "./WSEditorColumn";
 import { WSEditorSelectMode } from "./WSEditorSelection";
+import { CSSProperties } from "@material-ui/styles";
 
 export interface WSEditorPropsOpts {
     viewRowCount?: number;
@@ -17,7 +17,8 @@ export interface WSEditorPropsOpts {
     hideSlider?: boolean;
     cellMargin?: string | number;
     sliderWheelDivisionStep?: number;
-    cellLineHeight?: string | number;
+    cellContainerStyle?: CSSProperties;
+    cellControlStyle?: CSSProperties;
     debug?: boolean;
     width?: number | string;
     minWidth?: number | string;
@@ -40,7 +41,8 @@ export const WSEditorDefaultProps: WSEditorPropsOpts = {
     hideSlider: false,
     cellMargin: 2,
     sliderWheelDivisionStep: 15,
-    cellLineHeight: 1,
+    cellContainerStyle: {},
+    cellControlStyle: {},
     debug: false,
     width: "100%"
 };

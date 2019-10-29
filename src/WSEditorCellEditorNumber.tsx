@@ -1,11 +1,8 @@
 import * as React from "react";
-import WSEditor from "./WSEditor";
-import { WSEditorCellEditorProps } from "./WSEditorCellEditor";
 import WSEditorCellEditorText from "./WSEditorCellEditorText";
 import { stringIsValidNumber } from "./Utils";
 import { withStyles } from "@material-ui/styles";
 import { InputBase } from "@material-ui/core";
-import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 
 const CellTextField = withStyles({
     root: {
@@ -22,9 +19,9 @@ const CellTextField = withStyles({
 
 class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
 {
-    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
-        super(props, editor, viewCell);
-    }
+    // constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
+    //     super(props, editor, viewCell);
+    // }
 
     isValid(newData: any) {
         const str = String(newData);
@@ -32,13 +29,15 @@ class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
     }
 
     cellContentRender() {
-        return <CellTextField            
-            fullWidth
-            error={!this.isValid(this.props.data)}
-            inputRef={(h) => this.txtboxRef = h}
-            value={this.props.data}
-            onChange={(e) => { this.setData(e.target.value) }}
-        />
+        return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+            <CellTextField
+                fullWidth
+                error={!this.isValid(this.props.data)}
+                inputRef={(h) => this.txtboxRef = h}
+                value={this.props.data}
+                onChange={(e) => { this.setData(e.target.value) }}
+            />
+        </div>
     }
 }
 

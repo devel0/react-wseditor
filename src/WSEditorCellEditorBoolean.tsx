@@ -44,23 +44,32 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
-        const ctl = <Checkbox
-            style={{ width: 10, height: 10, padding: 0 }}
-            icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
-            checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
-            ref={(h: HTMLButtonElement) => this.cbRef = h}
-            checked={this.props.data}
-            onChange={(e) => { this.setData(e.target.checked) }}
-        />;
-        return <div style={{ textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" }}>
-            {(this.opts && this.opts.label) ?
-                <FormControlLabel
-                    control={ctl}
-                    labelPlacement={this.opts.labelPlacement}
-                    label={this.opts.label} />
-                :
-                ctl}
-        </div>
+        if (this.editor.props.readonly === true || this.editor.props.cols[this.viewCell.viewColIdx].readonly === true) {
+            return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+                {this.props.data === true ? <icons.Done style={{ ...this.getCol().cellControlStyle }} /> : this.props.data !== false ? "-" : ""}
+            </div>
+        }
+        else {
+            const ctl = <Checkbox
+                style={{ width: 10, height: 10, padding: 0 }}
+                icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
+                checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
+                ref={(h: HTMLButtonElement) => this.cbRef = h}
+                checked={this.props.data}
+                onChange={(e) => { this.setData(e.target.checked) }}
+            />;
+            return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+                <div style={{ textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left", ...this.props.cellControlStyle }}>
+                    {(this.opts && this.opts.label) ?
+                        <FormControlLabel
+                            control={ctl}
+                            labelPlacement={this.opts.labelPlacement}
+                            label={this.opts.label} />
+                        :
+                        ctl}
+                </div>
+            </div>
+        }
     }
 }
 

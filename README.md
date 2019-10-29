@@ -72,7 +72,7 @@ to allow grid manage tons of rows was required by design to react only for view 
     - if key handled by engine then [current cell][124] could change and [editor set current cell][125] handler can handle to extend or replace current selection while row editor [represent cell/row selection][126] by changing style
     - finally row render [each cell][120] choosing between [default or custom][121] cell editor
 - columns
-    - toggle [sort][122] uses [editor sort handler][123] and can be [customized][9]
+    - toggle [sort][122] uses [editor sort handler][123]
 - other keyboard/mouse managements points
     - [slider][127]
     - [horizontal scroll][128] and [workaround][129]

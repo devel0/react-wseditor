@@ -1,6 +1,7 @@
 import WSEditorCellEditor, { WSEditorCellEditorProps } from "./WSEditorCellEditor";
 import WSEditor from "./WSEditor";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+import { CSSProperties } from "@material-ui/styles";
 
 export enum SortDirection { Ascending, Descending };
 
@@ -17,4 +18,6 @@ export default interface WSEditorColumn<T> {
     minWidth?: number | string;
     maxWidth?: number | string;
     width?: number | string;
+    cellContainerStyle?: CSSProperties | undefined;
+    cellControlStyle? : CSSProperties | undefined;
 }

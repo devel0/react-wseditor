@@ -1,19 +1,20 @@
 import * as React from "react";
-import WSEditorColumn from "./WSEditorColumn";
 import WSEditor from "./WSEditor";
 import WSEditorRow from "./WSEditorRow";
-import { Typography, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 
 export interface WSEditorCellEditorProps<T> {
     data: any;
+    cellContainerStyle?: React.CSSProperties;
+    cellControlStyle?: React.CSSProperties;
 }
 
 class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorProps<T>, S>
 {
     editor: WSEditor<T>;
     viewCell: WSEditorViewCellCoord<T>;
-    customRender?: (cellEditor: WSEditorCellEditor<T, S>) => JSX.Element;
+    customControlRender?: (cellEditor: WSEditorCellEditor<T, S>) => JSX.Element;
     private directEditing: boolean = true;
 
     constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>,
@@ -22,7 +23,7 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
 
         this.editor = editor;
         this.viewCell = viewCell;
-        this.customRender = customRender;
+        this.customControlRender = customRender;
         this.editor.setCellEditor(viewCell, this);
     }
 
@@ -47,6 +48,7 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
         this.editor.setViewCellData(this.viewCell, newData);
     }
 
+    getRow = () => this.viewCell.getRow
     getCol = () => this.editor.props.cols[this.viewCell.viewColIdx];
 
     leaveCellEdit() {
@@ -55,10 +57,15 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
     }
 
     cellContentRender() {
-        if (this.customRender)
-            return this.customRender(this);
-        else
-            return <Typography style={{ lineHeight: this.editor.props.cellLineHeight! }}>{this.props.data}</Typography>
+        return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+            {this.customControlRender ?
+                this.customControlRender(this) :
+                <div style={{ ...this.editor.props.cellControlStyle, ...this.getCol().cellControlStyle }}>
+                    {this.props.data}
+                </div>
+            }
+            {/* <Typography style={{ ...this.editor.props.cellControlStyle, ...this.getCol().cellControlStyle }}>{this.props.data}</Typography>} */}
+        </div>
     }
 
     onMousedown(e: React.MouseEvent<HTMLDivElement>) {

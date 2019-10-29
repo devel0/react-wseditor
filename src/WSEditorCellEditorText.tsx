@@ -1,6 +1,5 @@
 import * as React from "react";
-import WSEditor from "./WSEditor";
-import WSEditorCellEditor, { WSEditorCellEditorProps } from "./WSEditorCellEditor";
+import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
 import { withStyles, InputBase } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
@@ -18,11 +17,11 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {
     txtboxRef: HTMLInputElement | null = null;
 
-    constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
-        super(props, editor, viewCell);
-    }
+    // constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
+    //     super(props, editor, viewCell);
+    // }
 
-    focus() {        
+    focus() {
         if (this.txtboxRef) {
             const strlen = String(this.props.data).length;
             this.txtboxRef.focus();
@@ -30,19 +29,19 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
         }
     }
 
-    isFocused() {        
+    isFocused() {
         return (this.txtboxRef && document.activeElement === this.txtboxRef) || false;
     }
 
     handleKeyDown(rowEditor: WSEditorRow<T>, viewCell: WSEditorViewCellCoord<T>, e: React.KeyboardEvent<HTMLDivElement>) {
         super.handleKeyDown(rowEditor, viewCell, e);
 
-        const isFocused = this.isFocused();        
+        const isFocused = this.isFocused();
 
-        if (this.txtboxRef) {            
-            if (this.isDirectEditing() && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {                
+        if (this.txtboxRef) {
+            if (this.isDirectEditing() && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
                 rowEditor.rowHandleKeyDown(e, viewCell);
-            }            
+            }
             else if (!isFocused) {
                 this.setData(e.key);
                 this.focus();
@@ -53,17 +52,19 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
                     e.key === "PageUp" || e.key === "PageDown") {
                     rowEditor.rowHandleKeyDown(e, viewCell);
                 }
-                
             }
-        }        
+        }
     }
 
     cellContentRender() {
-        return <CellTextField
-            fullWidth            
-            inputRef={(h) => this.txtboxRef = h}
-            value={this.props.data}
-            onChange={(e) => { this.setData(e.target.value) }} />
+        return <div style={{ ...this.editor.props.cellContainerStyle!, ...this.getCol().cellContainerStyle! }}>
+            <CellTextField
+                fullWidth
+                style={{ verticalAlign: "middle" }}
+                inputRef={(h) => this.txtboxRef = h}
+                value={this.props.data}
+                onChange={(e) => { this.setData(e.target.value) }} />
+        </div>
     }
 }
 

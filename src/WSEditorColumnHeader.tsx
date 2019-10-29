@@ -14,9 +14,9 @@ class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeaderProps<
 {
     viewRowIdx: number = 0;
 
-    constructor(props: WSEditorColumnHeaderProps<T>) {
-        super(props);
-    }
+    // constructor(props: WSEditorColumnHeaderProps<T>) {
+    //     super(props);
+    // }
 
     toggleSort(shiftPressed: boolean) {
         this.props.editor.toggleColumnHeaderSort(this, shiftPressed);
