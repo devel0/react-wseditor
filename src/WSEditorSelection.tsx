@@ -25,6 +25,18 @@ export class WSEditorSelectionBounds<T> {
         this._maxColIdx = rng.from.colIdx > rng.to.colIdx ? rng.from.colIdx : rng.to.colIdx;
     }
 
+    /** return new bound that extends this one to given other */
+    union(other: WSEditorSelectionBounds<T>) {
+        return new WSEditorSelectionBounds<T>(
+            new WSEditorSelectionRange<T>(
+                new WSEditorCellCoord<T>(
+                    this._minRowIdx < other._minRowIdx ? this._minRowIdx : other._minRowIdx,
+                    this._minColIdx > other._minColIdx ? this._minColIdx : other._minColIdx),
+                new WSEditorCellCoord<T>(
+                    this._maxRowIdx > other._maxRowIdx ? this._maxRowIdx : other._maxRowIdx,
+                    this._maxColIdx > other._maxColIdx ? this._maxColIdx : other._maxColIdx)));
+    }
+
     contains(cell: WSEditorCellCoord<T>) {
         return cell.rowIdx >= this._minRowIdx && cell.rowIdx <= this._maxRowIdx &&
             cell.colIdx >= this._minColIdx && cell.colIdx <= this._maxColIdx;
@@ -40,7 +52,7 @@ export class WSEditorSelectionRange<T>
     get to() { return this._to; }
 
     /** compute this range bounds */
-    get bounds() : WSEditorSelectionBounds<T> { return new WSEditorSelectionBounds<T>(this); }
+    get bounds(): WSEditorSelectionBounds<T> { return new WSEditorSelectionBounds<T>(this); }
 
     constructor(from: WSEditorCellCoord<T>, to: WSEditorCellCoord<T>) {
         this._from = from;
@@ -68,7 +80,10 @@ export class WSEditorSelectionRange<T>
     }
 
     toString() {
-        return this.from.toString() + "-" + this.to.toString();
+        if (this._from.equals(this._to))
+            return "(" + this._from.toString() + ")";
+        else
+            return "(" + this.from.toString() + ")-(" + this.to.toString() + ")";
     }
 
     *cells() {
@@ -85,16 +100,31 @@ export class WSEditorSelectionRange<T>
 export default class WSEditorSelection<T> {
 
     private editor: WSEditor<T>;
-    private ranges: WSEditorSelectionRange<T>[];
+    private _ranges: WSEditorSelectionRange<T>[];
 
     constructor(editor: WSEditor<T>, ranges: WSEditorSelectionRange<T>[]) {
         this.editor = editor;
-        this.ranges = ranges;
+        this._ranges = ranges;
+    }
+
+    get ranges() { return this._ranges; }
+
+    get bounds() {
+        if (this._ranges.length === 0)
+            return null;
+        else {
+            let res = this._ranges[0].bounds;
+            for (let i = 1; i < this._ranges.length; ++i) {
+                const b = this._ranges[i].bounds;
+                res = res.union(b);
+            }
+            return res;
+        }
     }
 
     /** return copy of this */
-    dup() {
-        return new WSEditorSelection<T>(this.editor, this.ranges.map((r) => r.dup()));
+    dup(): WSEditorSelection<T> {
+        return new WSEditorSelection<T>(this.editor, this._ranges.map((r) => r.dup()));
     }
 
     add(cell: WSEditorCellCoord<T>) {
@@ -119,19 +149,19 @@ export default class WSEditorSelection<T> {
     }
 
     setSelection(range: WSEditorSelectionRange<T>) {
-        this.ranges = [range];
+        this._ranges = [range];
     }
 
     /** if row mode selection extends automatically to entire row containing selected cells */
     containsVieWcell(viewCell: WSEditorViewCellCoord<T>): boolean {
         const cell = viewCell.getCellCoord(this.editor.state.scrollOffset);
 
-        return this.ranges.find((w) => w.contains(cell, this.editor.props.selectionMode === WSEditorSelectMode.Row)) !== undefined;
+        return this._ranges.find((w) => w.contains(cell, this.editor.props.selectionMode === WSEditorSelectMode.Row)) !== undefined;
     }
 
     *cells() {
-        for (let rngIdx = 0; rngIdx < this.ranges.length; ++rngIdx) {
-            const rng = this.ranges[rngIdx];
+        for (let rngIdx = 0; rngIdx < this._ranges.length; ++rngIdx) {
+            const rng = this._ranges[rngIdx];
             let rngCells = rng.cells();
             let cell = rngCells.next();
             while (!cell.done) {
@@ -144,8 +174,8 @@ export default class WSEditorSelection<T> {
     rowIdxs() {
         let res: Set<number> = new Set<number>();
 
-        for (let rngIdx = 0; rngIdx < this.ranges.length; ++rngIdx) {
-            const rng = this.ranges[rngIdx];
+        for (let rngIdx = 0; rngIdx < this._ranges.length; ++rngIdx) {
+            const rng = this._ranges[rngIdx];
             let rngCells = rng.cells();
             let cell = rngCells.next();
             while (!cell.done) {
@@ -155,6 +185,16 @@ export default class WSEditorSelection<T> {
         }
 
         return res;
+    }
+
+    toString() {
+        let str = "";
+        for (let i = 0; i < this.ranges.length; ++i) {
+            if (i > 0) str += " ; "
+            str += this.ranges[i].toString();
+        }
+
+        return str;
     }
 
 }

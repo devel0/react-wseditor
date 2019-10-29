@@ -18,6 +18,11 @@ export interface WSEditorStatus<T> {
     selection: WSEditorSelection<T>;
 }
 
+export interface WSEditorRowInfo<T> {
+    rowIdx: number;
+    row: T;
+}
+
 class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T>>
 {
     headerRowRef: React.RefObject<HTMLDivElement>;
@@ -119,16 +124,38 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         q.push(newRow);
         this.props.setRows(q);
 
+        if (this.props.onRowsAdded) this.props.onRowsAdded(this, [{ row: newRow, rowIdx: addedRowIdx }]);
+
         return addedRowIdx;
     }
 
     deleteRows = (rowIdxs: Set<number>) => {
+        const notifyDeletedRowsInfo: WSEditorRowInfo<T>[] = [];
+
         const s = this.props.rows.slice();
         const q: T[] = [];
         for (let ridx = 0; ridx < this.props.rows.length; ++ridx) {
-            if (!rowIdxs.has(ridx)) q.push(s[ridx]);
+            if (!rowIdxs.has(ridx))
+                q.push(s[ridx]);
+            else {
+                if (this.props.onRowsDeleted) {
+                    notifyDeletedRowsInfo.push({ row: s[ridx], rowIdx: ridx });
+                }
+            }
         }
         this.props.setRows(q);
+
+        if (this.props.onRowsDeleted) this.props.onRowsDeleted(this, notifyDeletedRowsInfo);
+        const qbounds = this.state.selection.bounds;
+        if (qbounds !== null) {
+            const minRowIdx = qbounds.minRowIdx;
+            const curColIdx = this.state.focusedViewCell ? this.state.focusedViewCell.viewColIdx : 0;
+            const cell = new WSEditorCellCoord<T>(minRowIdx, curColIdx);
+            //const viewCell = cell.getViewCellCoord(this.state.scrollOffset);            
+            this.setState({ focusedViewCell: new WSEditorViewCellCoord<T>(-1, -1) });            
+            this.setSelection(cell, cell);            
+        } else
+            this.clearSelection();
     }
 
     //
@@ -148,38 +175,20 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         this.setState({ scrollOffset: scrollOffset });
     }
 
-    setCurrentCell = (cell: WSEditorCellCoord<T>, endingCell: boolean = false, clearPreviousSel: boolean = true, _rowsCount?: number) => {
-        let rowsCount = _rowsCount ? _rowsCount : this.props.rows.length;
-
-        // sanity check
-        let newRowIdx = cell.rowIdx;
-        if (newRowIdx < 0)
-            newRowIdx = 0;
-        else if (newRowIdx >= rowsCount)
-            newRowIdx = rowsCount - 1;
-
-        let newColIdx = cell.colIdx;;
-        if (newColIdx < 0)
-            newColIdx = 0;
-        else if (newColIdx >= this.props.cols.length)
-            newColIdx = this.props.cols.length - 1;
-
-        if (cell.rowIdx !== newRowIdx || cell.colIdx !== newColIdx)
-            cell = new WSEditorCellCoord<T>(newRowIdx, newColIdx);
-
+    setCurrentCell = (cell: WSEditorCellCoord<T>, endingCell: boolean = false, clearPreviousSel: boolean = true) => {
         let scrollOffset = this.state.scrollOffset;
-        if (newRowIdx - scrollOffset >= this.props.viewRowCount!)
+        if (cell.rowIdx - scrollOffset >= this.props.viewRowCount!)
             scrollOffset = cell.rowIdx - this.props.viewRowCount! + 1;
-        else if (newRowIdx - scrollOffset < 0)
+        else if (cell.rowIdx - scrollOffset < 0)
             scrollOffset = cell.rowIdx;
 
-        const newCell = new WSEditorCellCoord<T>(newRowIdx, newColIdx);
-        const viewCell = newCell.getViewCellCoord(scrollOffset);
+        //const newCell = new WSEditorCellCoord<T>(newRowIdx, newColIdx);
+        const viewCell = cell.getViewCellCoord(scrollOffset);
         const multi = this.props.selectionModeMulti === true;
-        const newSelection = (multi && endingCell === true) ? this.state.selection.extendsTo(newCell) :
+        const newSelection = (multi && endingCell === true) ? this.state.selection.extendsTo(cell) :
             (!multi || clearPreviousSel) ?
-                new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(newCell, newCell)]) :
-                this.state.selection.add(newCell);
+                new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(cell, cell)]) :
+                this.state.selection.add(cell);
 
         this.setState({
             scrollOffset: scrollOffset,
@@ -278,9 +287,8 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         return Array.from(this.state.selection.rowIdxs());
     }
 
-    /** rowsCount to help wseditor understand rows count when using programmatically add and select before update cycle */
-    selectRow(rowIdx: number, rowsCount?: number) {
-        this.setCurrentCell(new WSEditorCellCoord<T>(rowIdx, 0), false, true, rowsCount);
+    selectRow(rowIdx: number) {
+        this.setCurrentCell(new WSEditorCellCoord<T>(rowIdx, 0), false, true);
     }
 
     clearSelection() {
@@ -402,11 +410,12 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         });
     }
 
-    render() {        
+    render() {
         return <div>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green" }}>
                     scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight} - HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
+                    - Selection: {this.state.selection.toString()}
                 </div>
                 : null}
             <Grid
@@ -418,7 +427,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
                     <div
                         ref={this.scrollableRef}
                         style={this.props.frameStyle}
-                        >
+                    >
                         <div style={{
                             width: this.props.width ? this.props.width : "100%"
                         }}>

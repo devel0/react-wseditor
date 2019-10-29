@@ -1,10 +1,8 @@
 import * as React from "react";
 import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
-import { withStyles, InputBase, makeStyles } from "@material-ui/core";
+import { InputBase } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
-import { fontFamily } from "@material-ui/system";
-import { CSSProperties } from "@material-ui/styles";
 
 class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {

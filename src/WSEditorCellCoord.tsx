@@ -32,7 +32,7 @@ class WSEditorCellCoord<T> {
         return this.rowIdx === other.rowIdx && this.colIdx === other.colIdx;
     }
 
-    toString() { return this.key(); }
+    toString() { return this._rowIdx + ":" + this._colIdx; }
 }
 
 export default WSEditorCellCoord;
