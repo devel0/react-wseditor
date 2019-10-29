@@ -155,10 +155,10 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 width: col.width ? col.width : "",
                 outline: 0,
             },
-                this.props.editor.selectionContains(viewCell) ? this.props.editor.props.selectionBackground! : {},
+                this.props.editor.selectionContains(viewCell) ? this.props.editor.props.selectionStyle!(this.props.editor, viewCell) : {},
                 viewCell.equals(this.props.editor.state.focusedViewCell) ?
-                    this.props.editor.props.currentCellContainerStyle :
-                    this.props.editor.props.cellContainerStyleBase
+                    this.props.editor.props.currentCellContainerStyle!(this.props.editor, viewCell) :
+                    this.props.editor.props.cellContainerStyleBase!(this.props.editor, viewCell)
             );
 
             res.push(<Grid

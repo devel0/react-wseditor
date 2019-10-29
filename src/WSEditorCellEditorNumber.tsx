@@ -29,8 +29,14 @@ class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
     }
 
     cellContentRender() {
-        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
-        const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle);
+        const col = this.getCol();
+
+        const containerStyle = Object.assign({},
+            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
+            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
+        const controlStyle = Object.assign({},
+            this.editor.props.cellControlStyle!(this.editor, this.viewCell),
+            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});
 
         return <div style={containerStyle}>
             <CellTextField

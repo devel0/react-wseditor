@@ -6,6 +6,7 @@ import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import { TextAlignProperty } from "csstype";
+import { CSSProperties } from "@material-ui/styles";
 
 export interface WSEditorCellEditorBooleanOpts {
     label?: React.ReactNode;
@@ -44,10 +45,17 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
-        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
+        const col = this.getCol();
+
+        const containerStyle = Object.assign({},
+            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
+            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
 
         if (this.editor.props.readonly === true || this.editor.props.cols[this.viewCell.viewColIdx].readonly === true) {
-            const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle);
+            const controlStyle = Object.assign({},
+                this.editor.props.cellControlStyle!(this.editor, this.viewCell),
+                col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});
+
             return <div style={containerStyle}>
                 {this.props.data === true ? <icons.Done style={controlStyle} /> : this.props.data !== false ? "-" : ""}
             </div>
@@ -61,8 +69,12 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
                 checked={this.props.data}
                 onChange={(e) => { this.setData(e.target.checked) }}
             />;
-            const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle,
-                { textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" });
+            const controlStyle = Object.assign({},
+                this.editor.props.cellControlStyle!(this.editor, this.viewCell),
+                col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {},
+                { textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" },
+                (!this.opts || !this.opts.textAlign || this.opts.textAlign === "left") ? { paddingLeft: "2em" } as CSSProperties : {});
+
             return <div style={containerStyle}>
                 <div style={controlStyle}>
                     {(this.opts && this.opts.label) ?

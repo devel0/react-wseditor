@@ -1,17 +1,10 @@
 import * as React from "react";
 import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
-import { withStyles, InputBase } from "@material-ui/core";
+import { withStyles, InputBase, makeStyles } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
-
-const CellTextField = withStyles({
-    root: {
-        '& input': {
-            cursor: "default",
-            padding: 0
-        },
-    },
-})(InputBase);
+import { fontFamily } from "@material-ui/system";
+import { CSSProperties } from "@material-ui/styles";
 
 class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {
@@ -57,16 +50,27 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
-        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
-        const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle, { verticalAlign: "middle" });
+        const col = this.getCol();        
+
+        const containerStyle = Object.assign({},
+            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
+            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
+        const controlStyle = Object.assign({},
+            { verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0 },
+            this.editor.props.cellControlStyle!(this.editor, this.viewCell),
+            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});            
 
         return <div style={containerStyle}>
-            <CellTextField
+            <InputBase
                 fullWidth
                 style={controlStyle}
+                inputProps={{
+                    style: controlStyle
+                }}                
                 inputRef={(h) => this.txtboxRef = h}
                 value={this.props.data}
-                onChange={(e) => { this.setData(e.target.value) }} />
+                onChange={(e) => { this.setData(e.target.value) }}                
+            />            
         </div>
     }
 }

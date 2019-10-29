@@ -23,24 +23,26 @@ class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeaderProps<
     }
 
     render() {
+        const style = Object.assign({},
+            {
+                minWidth: this.props.col.minWidth ? this.props.col.minWidth : "",
+                maxWidth: this.props.col.maxWidth ? this.props.col.maxWidth : "",
+                width: this.props.col.width ? this.props.col.width : "",
+            },
+            this.props.editor.props.headerCellStyle!(this.props)
+        );
+
         return <Grid
             xs
             onMouseDown={(e) => this.toggleSort(e.getModifierState("Shift"))}
             item={true}
-            style={{
-                minWidth: this.props.col.minWidth ? this.props.col.minWidth : "",
-                maxWidth: this.props.col.maxWidth ? this.props.col.maxWidth : "",
-                width: this.props.col.width ? this.props.col.width : "",
-                background: "#eeeeee",
-                cursor: "pointer",
-                border: this.props.editor.props.headerBorderStyle
-            }}>
+            style={style}>
             <Typography style={{ margin: 2 }}>
                 <b>{this.props.col.header}</b>
                 {this.props.col.sortDir === SortDirection.Ascending ? <FaSortUp /> :
                     (this.props.col.sortDir === SortDirection.Descending ? <FaSortDown /> : null)}
             </Typography>
-        </Grid>
+        </Grid >
     }
 }
 

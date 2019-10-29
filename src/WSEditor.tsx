@@ -179,7 +179,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         const newSelection = (multi && endingCell === true) ? this.state.selection.extendsTo(newCell) :
             (!multi || clearPreviousSel) ?
                 new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(newCell, newCell)]) :
-                this.state.selection.add(newCell);                
+                this.state.selection.add(newCell);
 
         this.setState({
             scrollOffset: scrollOffset,
@@ -402,7 +402,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         });
     }
 
-    render() {
+    render() {        
         return <div>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green" }}>
@@ -417,12 +417,8 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
                 }} >
                     <div
                         ref={this.scrollableRef}
-                        style={{
-                            border: this.props.headerBorderStyle,
-                            borderTop: 0,
-                            // borderBottom: 0,
-                            overflow: "auto"
-                        }}>
+                        style={this.props.frameStyle}
+                        >
                         <div style={{
                             width: this.props.width ? this.props.width : "100%"
                         }}>

@@ -4,7 +4,7 @@ import { WSEditorPropsOpts } from "./WSEditorDefaultProps";
 import WSEditorCellCoord from "./WSEditorCellCoord";
 import WSEditor from "./WSEditor";
 
-export default interface WSEditorProps<T> extends WSEditorPropsOpts {
+export default interface WSEditorProps<T> extends WSEditorPropsOpts<T> {
     rows: T[];
     setRows: (newRows: any[]) => void;
     cols: WSEditorColumn<T>[];
