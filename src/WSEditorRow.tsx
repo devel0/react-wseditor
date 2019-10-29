@@ -132,12 +132,13 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         const ctrl_key = e.getModifierState("Control");
 
         const cell = viewCell.getCellCoord(this.props.editor.state.scrollOffset);
-
-        this.props.editor.setCurrentCell(
-            cell,
-            shift_key === true, // endingCell
-            ctrl_key === false // clearPrevious
-        );
+        if (!viewCell.equals(this.props.editor.state.focusedViewCell)) {
+            this.props.editor.setCurrentCell(
+                cell,
+                shift_key === true, // endingCell
+                ctrl_key === false // clearPrevious
+            );
+        }
 
         if (this.props.editor.props.onCellClicked) this.props.editor.props.onCellClicked(this.props.editor, cell, e);
     }
@@ -164,7 +165,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             res.push(<Grid
                 key={"c" + viewCell.key()} xs item={true}
                 tabIndex={0}
-                onMouseDown={(e) => this.handleMouseDown(e, viewCell)}
+                onClick={(e) => this.handleMouseDown(e, viewCell)}
                 onKeyDown={(e) => this.handleKeydown(e, viewCell)}
                 onWheel={(e) => this.handleMouseWheel(e, viewCell)}
                 style={cellStyle}

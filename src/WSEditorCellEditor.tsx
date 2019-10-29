@@ -65,7 +65,8 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
             col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
         const controlStyle = Object.assign({},
             this.editor.props.cellControlStyle!(this.editor, this.viewCell),
-            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});
+            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {},
+            { cursor: "default" });
 
         return <div style={containerStyle}>
             {this.customControlRender ?
@@ -74,7 +75,6 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
                     {this.props.data}
                 </div>
             }
-            {/* <Typography style={{ ...this.editor.props.cellControlStyle, ...this.getCol().cellControlStyle }}>{this.props.data}</Typography>} */}
         </div>
     }
 
@@ -83,8 +83,9 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
     }
 
     render() {
+
         return <Grid item={true}
-            style={{ margin: this.editor.props.cellMargin }}
+            style={{ margin: this.editor.props.cellMargin, }}
             onMouseDown={(e) => this.onMousedown(e)}>
             {this.cellContentRender()}
         </Grid>

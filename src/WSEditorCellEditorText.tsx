@@ -48,15 +48,15 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
-        const col = this.getCol();        
+        const col = this.getCol();
 
         const containerStyle = Object.assign({},
             this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
-            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell) : {});
         const controlStyle = Object.assign({},
-            { verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0 },
+            { verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0, cursor: "default" },
             this.editor.props.cellControlStyle!(this.editor, this.viewCell),
-            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});            
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {});
 
         return <div style={containerStyle}>
             <InputBase
@@ -64,11 +64,11 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
                 style={controlStyle}
                 inputProps={{
                     style: controlStyle
-                }}                
+                }}
                 inputRef={(h) => this.txtboxRef = h}
                 value={this.props.data}
-                onChange={(e) => { this.setData(e.target.value) }}                
-            />            
+                onChange={(e) => { this.setData(e.target.value) }}
+            />
         </div>
     }
 }
