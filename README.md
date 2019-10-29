@@ -29,6 +29,7 @@ npm install --save react-wseditor
 - worksheet like keyboard navigation ( cursor, home/end, ctrl+home/end, direct editing or F2, canc to delete cell content )
 - sortable columns ( hold shift for multilevel sort ) with optional [custom sort][9]
 - [column width][10] adjustable ( % or fixed )
+- [initial sort][16]
 - scroll horizontal if set editor width in an [overflow div][11]
 - scrollbar [slider][12] can be hidden
 - [readonly][13] mode
@@ -49,6 +50,7 @@ npm install --save react-wseditor
 [13]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L32
 [14]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L279-L280
 [15]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L53-L55
+[16]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L72-L73
 
 ## How to contribute (quickstart)
 
