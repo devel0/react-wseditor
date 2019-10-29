@@ -96,7 +96,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         const row = q[cell.rowIdx];
         (row as any)[this.props.cols[cell.colIdx].field] = newData;
         this.props.setRows(q);
-        if (this.props.onCellDataChanged) this.props.onCellDataChanged(row, cell, newData);
+        if (this.props.onCellDataChanged) this.props.onCellDataChanged(this, row, cell, newData);
     }
 
     leaveCellEdit = (viewCell: WSEditorViewCellCoord<T>) => {
@@ -113,12 +113,12 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
 
     /** add a row and return its index */
     addRow = (newRow: T): number => {
-        const addedRowIdx = this.props.rows.length;        
+        const addedRowIdx = this.props.rows.length;
 
         const q = this.props.rows.slice();
         q.push(newRow);
         this.props.setRows(q);
-        
+
         return addedRowIdx;
     }
 
@@ -176,15 +176,18 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         const newCell = new WSEditorCellCoord<T>(newRowIdx, newColIdx);
         const viewCell = newCell.getViewCellCoord(scrollOffset);
         const multi = this.props.selectionModeMulti === true;
+        const newSelection = (multi && endingCell === true) ? this.state.selection.extendsTo(newCell) :
+            (!multi || clearPreviousSel) ?
+                new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(newCell, newCell)]) :
+                this.state.selection.add(newCell);                
 
         this.setState({
             scrollOffset: scrollOffset,
             focusedViewCell: viewCell,
-            selection: (multi && endingCell === true) ? this.state.selection.extendsTo(newCell) :
-                (!multi || clearPreviousSel) ?
-                    new WSEditorSelection<T>(this, [new WSEditorSelectionRange<T>(newCell, newCell)]) :
-                    this.state.selection.add(newCell)
+            selection: newSelection
         });
+
+        if (this.props.onSelectionChanged) this.props.onSelectionChanged(this, newSelection);
 
         const qref = this.getViewCellRef(viewCell);
         if (qref) {

@@ -4,7 +4,6 @@ import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditor from "./WSEditor";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import WSEditorCellCoord from "./WSEditorCellCoord";
-import { WSEditorSelectMode } from "./WSEditorSelection";
 
 export interface WSEditorRowProps<T> {
     viewRowIdx: number;
@@ -132,11 +131,15 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         const shift_key = e.getModifierState("Shift");
         const ctrl_key = e.getModifierState("Control");
 
+        const cell = viewCell.getCellCoord(this.props.editor.state.scrollOffset);
+
         this.props.editor.setCurrentCell(
-            viewCell.getCellCoord(this.props.editor.state.scrollOffset),
+            cell,
             shift_key === true, // endingCell
             ctrl_key === false // clearPrevious
         );
+
+        if (this.props.editor.props.onCellClicked) this.props.editor.props.onCellClicked(this.props.editor, cell, e);
     }
 
     renderRow() {
