@@ -44,9 +44,12 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
     }
 
     cellContentRender() {
+        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
+
         if (this.editor.props.readonly === true || this.editor.props.cols[this.viewCell.viewColIdx].readonly === true) {
-            return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
-                {this.props.data === true ? <icons.Done style={{ ...this.getCol().cellControlStyle }} /> : this.props.data !== false ? "-" : ""}
+            const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle);
+            return <div style={containerStyle}>
+                {this.props.data === true ? <icons.Done style={controlStyle} /> : this.props.data !== false ? "-" : ""}
             </div>
         }
         else {
@@ -58,8 +61,10 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
                 checked={this.props.data}
                 onChange={(e) => { this.setData(e.target.checked) }}
             />;
-            return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
-                <div style={{ textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left", ...this.props.cellControlStyle }}>
+            const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle,
+                { textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" });
+            return <div style={containerStyle}>
+                <div style={controlStyle}>
                     {(this.opts && this.opts.label) ?
                         <FormControlLabel
                             control={ctl}
@@ -68,7 +73,7 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
                         :
                         ctl}
                 </div>
-            </div>
+            </div >
         }
     }
 }

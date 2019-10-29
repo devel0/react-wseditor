@@ -3,6 +3,7 @@ import WSEditor from "./WSEditor";
 import WSEditorRow from "./WSEditorRow";
 import { Grid } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+import { CSSProperties } from "@material-ui/styles";
 
 export interface WSEditorCellEditorProps<T> {
     data: any;
@@ -57,10 +58,12 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
     }
 
     cellContentRender() {
-        return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
+        const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle);
+        return <div style={containerStyle}>
             {this.customControlRender ?
                 this.customControlRender(this) :
-                <div style={{ ...this.editor.props.cellControlStyle, ...this.getCol().cellControlStyle }}>
+                <div style={controlStyle}>
                     {this.props.data}
                 </div>
             }

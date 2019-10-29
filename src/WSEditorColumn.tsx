@@ -18,6 +18,6 @@ export default interface WSEditorColumn<T> {
     minWidth?: number | string;
     maxWidth?: number | string;
     width?: number | string;
-    cellContainerStyle?: CSSProperties | undefined;
-    cellControlStyle? : CSSProperties | undefined;
+    cellContainerStyle?: CSSProperties;
+    cellControlStyle? : CSSProperties;
 }

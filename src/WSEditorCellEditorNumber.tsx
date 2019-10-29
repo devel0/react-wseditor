@@ -29,9 +29,13 @@ class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
     }
 
     cellContentRender() {
-        return <div style={{ ...this.editor.props.cellContainerStyle, ...this.getCol().cellContainerStyle }}>
+        const containerStyle = Object.assign({}, this.editor.props.cellContainerStyle, this.getCol().cellContainerStyle);
+        const controlStyle = Object.assign({}, this.editor.props.cellControlStyle, this.getCol().cellControlStyle);
+
+        return <div style={containerStyle}>
             <CellTextField
                 fullWidth
+                style={controlStyle}
                 error={!this.isValid(this.props.data)}
                 inputRef={(h) => this.txtboxRef = h}
                 value={this.props.data}
