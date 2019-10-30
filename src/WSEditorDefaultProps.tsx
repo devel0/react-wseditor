@@ -73,7 +73,7 @@ export default function WSEditorDefaultProps() {
         },
         cellContainerHoverStyle: (editor,viewCell) => {
             return {
-                background: "rgba(56,90,162,0.1)"
+                // background: "rgba(56,90,162,0.1)"
             }
         },
         cellContainerStyle: (editor, viewCell) => {
