@@ -5,14 +5,11 @@ import WSEditorRow from "./WSEditorRow";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
-import { TextAlignProperty } from "csstype";
-import { CSSProperties } from "@material-ui/styles";
-import WSEditorDefaultProps, { WSEditorPropsOpts } from "./WSEditorDefaultProps";
 
 export interface WSEditorCellEditorBooleanOpts {
     label?: React.ReactNode;
     labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
-    textAlign?: TextAlignProperty;
+    //controlJustify?: GridJustification;
 }
 
 class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
@@ -48,17 +45,19 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
     cellContentRender() {
         const col = this.getCol();
 
-        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell, {});
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell);
         const containerStyle = Object.assign({},
-            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {},
-            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {}
+            defaultContainerStyle,
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell) : {}
         );
-        
-        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell, {});
+
+        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell);
         if (this.editor.props.readonly === true || this.editor.props.cols[this.viewCell.viewColIdx].readonly === true) {
             const controlStyle = Object.assign({},
-                this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
-                col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {});
+                defaultControlStyle,
+                this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
+                col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {});
 
             return <div style={containerStyle}>
                 {this.props.data === true ? <icons.Done style={controlStyle} /> : this.props.data !== false ? "-" : ""}
@@ -66,7 +65,6 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
         }
         else {
             const ctl = <Checkbox
-                style={{ width: 10, height: 10, padding: 0 }}
                 icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
                 checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
                 ref={(h: HTMLButtonElement) => this.cbRef = h}
@@ -75,23 +73,21 @@ class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
             />;
 
             const controlStyle = Object.assign({},
-                this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
-                col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
-                { textAlign: (this.opts && this.opts.textAlign) ? this.opts.textAlign : "left" },
-                (!this.opts || !this.opts.textAlign || this.opts.textAlign === "left") ? { paddingLeft: "2em" } as CSSProperties : {}
+                defaultControlStyle,
+                this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
+                col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
             );
 
-            return <div style={containerStyle}>
-                <div style={controlStyle}>
-                    {(this.opts && this.opts.label) ?
-                        <FormControlLabel
-                            control={ctl}
-                            labelPlacement={this.opts.labelPlacement}
-                            label={this.opts.label} />
-                        :
-                        ctl}
-                </div>
-            </div >
+            return <div style={controlStyle}>
+                {(this.opts && this.opts.label) ?
+                    <FormControlLabel
+                        control={ctl}
+                        labelPlacement={this.opts.labelPlacement}
+                        label={this.opts.label}
+                    />
+                    :
+                    ctl}
+            </div>
         }
     }
 }

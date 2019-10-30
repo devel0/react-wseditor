@@ -2,6 +2,7 @@ import WSEditorCellEditor, { WSEditorCellEditorProps } from "./WSEditorCellEdito
 import WSEditor from "./WSEditor";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import { CSSProperties } from "@material-ui/styles";
+import { GridJustification, GridItemsAlignment } from "@material-ui/core/Grid";
 
 export enum SortDirection { Ascending, Descending };
 
@@ -18,6 +19,8 @@ export default interface WSEditorColumn<T> {
     minWidth?: number | string;
     maxWidth?: number | string;
     width?: number | string;
-    cellContainerStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>, defaultStyle: CSSProperties) => CSSProperties;
-    cellControlStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>, defaultStyle: CSSProperties) => CSSProperties;
+    cellContainerStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => CSSProperties;
+    cellControlStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => CSSProperties;
+    justify?: GridJustification;
+    alignItems?: GridItemsAlignment;
 }

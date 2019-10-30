@@ -9,11 +9,11 @@ import WSEditorCellCoord from "./WSEditorCellCoord";
 import WSEditorSelection, { WSEditorSelectionRange } from "./WSEditorSelection";
 import WSEditorProps from "./WSEditorProps";
 import WSEditorDefaultProps from "./WSEditorDefaultProps";
-import { CSSProperties } from "@material-ui/styles";
 
 export interface WSEditorStatus<T> {
     scrollOffset: number;
     focusedViewCell: WSEditorViewCellCoord<T>;
+    hoverViewRowIdx: number;
     headerRowHeight: number;
     gridHeight: number;
     selection: WSEditorSelection<T>;
@@ -31,22 +31,9 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     gridRef: React.RefObject<HTMLDivElement>;
 
     static defaultProps = WSEditorDefaultProps();
-    // static defaultCellContainerStyle: CSSProperties | undefined;
-    // static defaultCellControlStyle: CSSProperties | undefined;
-    // static deafultHeaderCellStyle: CSSProperties | undefined;
 
     constructor(props: WSEditorProps<T>) {
         super(props);
-
-        // if (WSEditor.defaultCellContainerStyle === undefined) {
-        //     WSEditor.defaultCellContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this, new WSEditorViewCellCoord<T>(-1, -1), {});
-        // }
-        // if (WSEditor.defaultCellControlStyle === undefined) {
-        //     WSEditor.defaultCellControlStyle = WSEditor.defaultProps.cellControlStyle!(this, new WSEditorViewCellCoord<T>(-1, -1), {});
-        // }        
-        // if (WSEditor.deafultHeaderCellStyle  === undefined) {
-        //     WSEditor.deafultHeaderCellStyle = WSEditor.defaultProps.headerCellStyle!(undefined, {});
-        // }        
 
         this.headerRowRef = React.createRef();
         this.scrollableRef = React.createRef();
@@ -55,6 +42,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
         this.state = {
             scrollOffset: 0,
             focusedViewCell: new WSEditorViewCellCoord<T>(-1, -1),
+            hoverViewRowIdx: -1,
             headerRowHeight: 0,
             gridHeight: 0,
             selection: new WSEditorSelection<T>(this, []),
@@ -233,9 +221,9 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             col.viewColIdx = cIdx;
             res.push(<WSEditorColumnHeader
                 key={"col:" + cIdx} editor={this} col={col} cIdx={cIdx}
-                // containerStyle={this.props.cellContainerStyle}
-                // controlStyle={this.props.cellControlStyle}
-                // headerCellStyle={this.props.headerCellStyle}
+            // containerStyle={this.props.cellContainerStyle}
+            // controlStyle={this.props.cellControlStyle}
+            // headerCellStyle={this.props.headerCellStyle}
             />);
         }
 
@@ -318,7 +306,7 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     }
 
     selectionContains(viewCell: WSEditorViewCellCoord<T>) {
-        const res = this.state.selection.containsVieWcell(viewCell);
+        const res = this.state.selection.containsViewcell(viewCell);
         return res;
     }
 
@@ -362,6 +350,10 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     //        
     initialRender: boolean = true;
 
+    setHoverViewRowIdx(viewRowIdx: number) {
+        this.setState({ hoverViewRowIdx: viewRowIdx });
+    }
+
     renderRows() {
         const res: React.ReactNode[] = [];
 
@@ -376,7 +368,10 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             const ridx = this.state.scrollOffset + viewRowIdx;
             if (ridx < 0 || ridx >= rowsCount) continue;
 
-            res.push(<Grid key={"vr:" + viewRowIdx} container={true} direction="row">
+            res.push(<Grid
+                key={"vr:" + viewRowIdx}
+                container
+                direction="row">
                 <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
             </Grid>);
         }
@@ -429,27 +424,35 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     }
 
     render() {
+        let layoutWidth: string | number | undefined = undefined;
+
+        if (this.props.width) {
+            layoutWidth = "calc(" + this.props.width + " - 24px)";
+        }
+        else {
+            layoutWidth = "calc(100% - 24px)";
+        }
+
         return <div>
             {this.props.debug === true ?
-                <div style={{ marginBottom: "1em", color: "green" }}>
-                    scrollOffset: {this.state.scrollOffset} - rowsCount: {this.props.rows.length} - gridHeight: {this.state.gridHeight} - headerRowHeight: {this.state.headerRowHeight} - HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
-                    - Selection: {this.state.selection.toString()}
+                <div style={{ marginBottom: "1em", color: "green", fontSize: 13, fontFamily: "Monospace" }}>
+                    scrollOffset: {this.state.scrollOffset} | rowsCount: {this.props.rows.length} | gridHeight: {this.state.gridHeight}
+                    | headerRowHeight: {this.state.headerRowHeight}
+                    | HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
+                    | Selection: {this.state.selection.toString()} | width: {this.props.width} | computedWidth: {layoutWidth} | hoverrowIdx: {this.state.hoverViewRowIdx}
                 </div>
                 : null}
             <Grid
                 container={true}
                 direction="row">
-                <Grid item={true} style={{
-                    width: "calc(100% - 24px)"
-                }} >
+                <Grid item={true} style={{ width: layoutWidth }}
+                >
                     <div
                         ref={this.scrollableRef}
-                        style={this.props.frameStyle}
-                    >
+                        style={this.props.frameStyle}>
                         <div style={{
                             width: this.props.width ? this.props.width : "100%"
                         }}>
-
                             <Grid container={true} direction="column">
                                 <Grid item={true} ref={this.gridRef}>
                                     <Grid

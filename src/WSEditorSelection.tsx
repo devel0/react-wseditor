@@ -153,7 +153,7 @@ export default class WSEditorSelection<T> {
     }
 
     /** if row mode selection extends automatically to entire row containing selected cells */
-    containsVieWcell(viewCell: WSEditorViewCellCoord<T>): boolean {
+    containsViewcell(viewCell: WSEditorViewCellCoord<T>): boolean {
         const cell = viewCell.getCellCoord(this.editor.state.scrollOffset);
 
         return this._ranges.find((w) => w.contains(cell, this.editor.props.selectionMode === WSEditorSelectMode.Row)) !== undefined;

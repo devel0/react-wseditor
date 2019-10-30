@@ -1,7 +1,7 @@
 import * as React from "react";
 import WSEditorCellEditorText from "./WSEditorCellEditorText";
 import { stringIsValidNumber } from "./Utils";
-import { withStyles } from "@material-ui/styles";
+import { withStyles, CSSProperties } from "@material-ui/styles";
 import { InputBase } from "@material-ui/core";
 import WSEditor from "./WSEditor";
 
@@ -10,8 +10,9 @@ const CellTextField = withStyles({
         '& input': {
             cursor: "default",
             textAlign: 'right',
-            padding: 0
-        },
+            padding: 0,
+            paddingRight: "10px",
+        } as CSSProperties,
     },
     error: {
         color: 'red'
@@ -31,19 +32,15 @@ class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
 
     cellContentRender() {
         const col = this.getCol();
-
-        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell, {});
-        const containerStyle = Object.assign({},
-            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {},
-            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {}
+        
+        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell);
+        const controlStyle = Object.assign({},
+            defaultControlStyle,
+            this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
         );
 
-        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell, {});
-        const controlStyle = Object.assign({},
-            this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
-            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {});
-
-        return <div style={containerStyle}>
+        return <div style={controlStyle}>
             <CellTextField
                 fullWidth
                 style={controlStyle}
