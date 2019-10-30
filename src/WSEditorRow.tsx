@@ -41,7 +41,7 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 
         const cell = viewCell.getCellCoord(this.props.editor.state.scrollOffset);
         let newRowIdx = cell.rowIdx;
-        let newColIdx = cell.colIdx;
+        let newColIdx = cell.colIdx;        
 
         if (e.key === "ArrowDown") {
             if (ctrl_key)
@@ -94,11 +94,13 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
                 cell = cells.next();
             }
         } else if (e.key === "Tab") {
-            if (newColIdx + 1 < this.props.editor.props.cols.length)
-                ++newColIdx;
-            else {
-                ++newRowIdx;
-                newColIdx = 0;
+            if (newRowIdx !== rowsCount - 1 || newColIdx !== colsCount - 1) {
+                if (newColIdx + 1 < colsCount) {
+                    ++newColIdx;
+                } else {
+                    ++newRowIdx;
+                    newColIdx = 0;
+                }
             }
         } else if (e.key === "Escape" ||
             e.key === "F1" || e.key === "F3" || e.key === "F4" || e.key === "F5" || e.key === "F6" ||
@@ -110,6 +112,12 @@ class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
             keyHandled = false;
 
         if (keyHandled) {
+            if (newRowIdx < 0) newRowIdx = 0;
+            else if (newRowIdx >= rowsCount) newRowIdx = rowsCount - 1;
+
+            if (newColIdx < 0) newColIdx = 0;
+            else if (newColIdx >= colsCount) newColIdx = colsCount - 1;
+
             if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx), shift_key);
             e.preventDefault();
             if (newColIdx === 0 && this.props.editor.scrollableRef.current && this.props.editor.scrollableRef.current.scrollLeft !== 0) {
