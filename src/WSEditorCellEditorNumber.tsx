@@ -3,6 +3,7 @@ import WSEditorCellEditorText from "./WSEditorCellEditorText";
 import { stringIsValidNumber } from "./Utils";
 import { withStyles } from "@material-ui/styles";
 import { InputBase } from "@material-ui/core";
+import WSEditor from "./WSEditor";
 
 const CellTextField = withStyles({
     root: {
@@ -31,12 +32,16 @@ class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
     cellContentRender() {
         const col = this.getCol();
 
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell, {});
         const containerStyle = Object.assign({},
-            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
-            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {}
+        );
+
+        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell, {});
         const controlStyle = Object.assign({},
-            this.editor.props.cellControlStyle!(this.editor, this.viewCell),
-            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {});
+            this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {});
 
         return <div style={containerStyle}>
             <CellTextField

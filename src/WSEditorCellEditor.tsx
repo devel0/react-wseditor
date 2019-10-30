@@ -4,11 +4,12 @@ import WSEditorRow from "./WSEditorRow";
 import { Grid } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import { CSSProperties } from "@material-ui/styles";
+import WSEditorDefaultProps from "./WSEditorDefaultProps";
 
 export interface WSEditorCellEditorProps<T> {
     data: any;
-    cellContainerStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => CSSProperties;
-    cellControlStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => CSSProperties;
+    cellContainerStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>, defaultStyle: CSSProperties) => CSSProperties;
+    cellControlStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>, defaultStyle: CSSProperties) => CSSProperties;
 }
 
 class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorProps<T>, S>
@@ -60,12 +61,16 @@ class WSEditorCellEditor<T, S = {}> extends React.Component<WSEditorCellEditorPr
     cellContentRender() {
         const col = this.getCol();
 
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell, {});
         const containerStyle = Object.assign({},
-            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
-            col.cellContainerStyle ? this.getCol().cellContainerStyle!(this.editor, this.viewCell) : {});
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {}
+        );
+
+        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell, {});
         const controlStyle = Object.assign({},
-            this.editor.props.cellControlStyle!(this.editor, this.viewCell),
-            col.cellControlStyle ? this.getCol().cellControlStyle!(this.editor, this.viewCell) : {},
+            this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
             { cursor: "default" });
 
         return <div style={containerStyle}>

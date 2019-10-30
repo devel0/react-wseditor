@@ -8,7 +8,8 @@ import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
 import WSEditorCellCoord from "./WSEditorCellCoord";
 import WSEditorSelection, { WSEditorSelectionRange } from "./WSEditorSelection";
 import WSEditorProps from "./WSEditorProps";
-import { WSEditorDefaultProps } from "./WSEditorDefaultProps";
+import WSEditorDefaultProps from "./WSEditorDefaultProps";
+import { CSSProperties } from "@material-ui/styles";
 
 export interface WSEditorStatus<T> {
     scrollOffset: number;
@@ -29,10 +30,23 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
     scrollableRef: React.RefObject<HTMLDivElement>;
     gridRef: React.RefObject<HTMLDivElement>;
 
-    static defaultProps = WSEditorDefaultProps;
+    static defaultProps = WSEditorDefaultProps();
+    // static defaultCellContainerStyle: CSSProperties | undefined;
+    // static defaultCellControlStyle: CSSProperties | undefined;
+    // static deafultHeaderCellStyle: CSSProperties | undefined;
 
     constructor(props: WSEditorProps<T>) {
         super(props);
+
+        // if (WSEditor.defaultCellContainerStyle === undefined) {
+        //     WSEditor.defaultCellContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this, new WSEditorViewCellCoord<T>(-1, -1), {});
+        // }
+        // if (WSEditor.defaultCellControlStyle === undefined) {
+        //     WSEditor.defaultCellControlStyle = WSEditor.defaultProps.cellControlStyle!(this, new WSEditorViewCellCoord<T>(-1, -1), {});
+        // }        
+        // if (WSEditor.deafultHeaderCellStyle  === undefined) {
+        //     WSEditor.deafultHeaderCellStyle = WSEditor.defaultProps.headerCellStyle!(undefined, {});
+        // }        
 
         this.headerRowRef = React.createRef();
         this.scrollableRef = React.createRef();
@@ -152,8 +166,8 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             const curColIdx = this.state.focusedViewCell ? this.state.focusedViewCell.viewColIdx : 0;
             const cell = new WSEditorCellCoord<T>(minRowIdx, curColIdx);
             //const viewCell = cell.getViewCellCoord(this.state.scrollOffset);            
-            this.setState({ focusedViewCell: new WSEditorViewCellCoord<T>(-1, -1) });            
-            this.setSelection(cell, cell);            
+            this.setState({ focusedViewCell: new WSEditorViewCellCoord<T>(-1, -1) });
+            this.setSelection(cell, cell);
         } else
             this.clearSelection();
     }
@@ -218,7 +232,11 @@ class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T
             const col = this.props.cols[cIdx];
             col.viewColIdx = cIdx;
             res.push(<WSEditorColumnHeader
-                key={"col:" + cIdx} editor={this} col={col} cIdx={cIdx} />);
+                key={"col:" + cIdx} editor={this} col={col} cIdx={cIdx}
+                // containerStyle={this.props.cellContainerStyle}
+                // controlStyle={this.props.cellControlStyle}
+                // headerCellStyle={this.props.headerCellStyle}
+            />);
         }
 
         return res;

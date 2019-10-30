@@ -3,6 +3,8 @@ import WSEditorCellEditor from "./WSEditorCellEditor";
 import WSEditorRow from "./WSEditorRow";
 import { InputBase } from "@material-ui/core";
 import WSEditorViewCellCoord from "./WSEditorViewCellCoord";
+import WSEditorDefaultProps from "./WSEditorDefaultProps";
+import WSEditor from "./WSEditor";
 
 class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {
@@ -50,13 +52,17 @@ class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
     cellContentRender() {
         const col = this.getCol();
 
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell, {});
         const containerStyle = Object.assign({},
-            this.editor.props.cellContainerStyle!(this.editor, this.viewCell),
-            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell) : {});
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell, defaultContainerStyle) : {}
+        );
+
+        const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell, {});
         const controlStyle = Object.assign({},
             { verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0, cursor: "default" },
-            this.editor.props.cellControlStyle!(this.editor, this.viewCell),
-            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {});
+            this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {},
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell, defaultControlStyle) : {});        
 
         return <div style={containerStyle}>
             <InputBase

@@ -6,8 +6,10 @@ import WSEditorCellEditorNumber from './WSEditorCellEditorNumber';
 import WSEditorCellEditorBoolean from './WSEditorCellEditorBoolean';
 import WSEditorViewCellCoord from './WSEditorViewCellCoord';
 import WSEditorSelection, { WSEditorSelectMode } from './WSEditorSelection';
+import WSEditorDefaultProps from './WSEditorDefaultProps';
 
 export {
   WSEditor, WSEditorCellEditor, WSEditorCellEditorBoolean, WSEditorCellEditorNumber, WSEditorCellEditorProps, WSEditorCellEditorText,
-  WSEditorColumn, WSEditorSelection, WSEditorSelectMode, WSEditorViewCellCoord, SortDirection, WSEditorRowInfo
+  WSEditorColumn, WSEditorSelection, WSEditorSelectMode, WSEditorViewCellCoord, SortDirection, WSEditorRowInfo,
+  WSEditorDefaultProps
 };
