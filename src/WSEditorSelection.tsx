@@ -1,4 +1,12 @@
-import { WSEditor, WSEditorSelectionRange, WSEditorCellCoord, WSEditorViewCellCoord, WSEditorSelectMode } from "./WSEditor";
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorSelectionRange } from "./WSEditorSelectionRange";
+
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
+
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+
+import { WSEditorSelectMode } from "./Utils";
 
 export class WSEditorSelection<T> {
 

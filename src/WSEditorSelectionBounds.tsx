@@ -1,4 +1,6 @@
-import { WSEditorSelectionRange, WSEditorCellCoord } from "./WSEditor";
+import { WSEditorSelectionRange } from "./WSEditorSelectionRange";
+
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
 
 export class WSEditorSelectionBounds<T> {
     private _minRowIdx: number;

@@ -1,5 +1,10 @@
-import { SortDirection, WSEditor, WSEditorCellEditorProps, WSEditorViewCellCoord, WSEditorCellEditor, WSEditorColumnHeader } from "./WSEditor";
 import { GridJustification, GridItemsAlignment } from "@material-ui/core/Grid";
+import { WSEditorCellEditorProps } from "./WSEditorCellEditorProps";
+import { WSEditor } from "./WSEditor";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditorCellEditor } from "./WSEditorCellEditor";
+import { SortDirection } from "./Utils";
+import { WSEditorColumnHeader } from "./WSEditorColumnHeader";
 
 export interface WSEditorColumn<T> {
     header: string;

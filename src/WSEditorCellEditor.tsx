@@ -1,9 +1,10 @@
-import {
-    WSEditor, WSEditorViewCellCoord, WSEditorRow, WSEditorCellEditorPropsOpts, WSEditorCellEditorProps    
-} from "./WSEditor";
 import * as React from "react";
 import { Grid } from "@material-ui/core";
-
+import { WSEditorCellEditorPropsOpts } from "./WSEditorCellEditorPropsOpts";
+import { WSEditorCellEditorProps } from "./WSEditorCellEditorProps";
+import { WSEditor } from "./WSEditor";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditorRow } from "./WSEditorRow";
 
 export function WSEditorCellEditorDefaultProps() {
     return {

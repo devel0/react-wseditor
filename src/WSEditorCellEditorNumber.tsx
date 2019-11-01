@@ -2,8 +2,9 @@ import { InputBase, withStyles } from "@material-ui/core";
 // IMPORTANT to avoid "TypeError: Class extends value undefined is not a constructor or null"
 // import WSEditorCellEditorText from file instead from WSEditor export
 import { WSEditorCellEditorText } from './WSEditorCellEditorText';
-import { stringIsValidNumber, WSEditor } from "./WSEditor";
+import { WSEditor } from "./WSEditor";
 import * as React from "react";
+import { stringIsValidNumber } from "./Utils";
 
 const CellTextField = withStyles({
     root: {

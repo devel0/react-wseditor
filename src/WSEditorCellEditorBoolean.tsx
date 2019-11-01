@@ -1,7 +1,12 @@
-import { WSEditorCellEditor, WSEditorCellEditorBooleanOpts, WSEditorCellEditorProps, WSEditor, WSEditorViewCellCoord, WSEditorRow } from "./WSEditor";
 import * as React from "react";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
+import { WSEditorCellEditor } from "./WSEditorCellEditor";
+import { WSEditorCellEditorBooleanOpts } from "./WSEditorCellEditorBooleanOpts";
+import { WSEditorCellEditorProps } from "./WSEditorCellEditorProps";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditorRow } from "./WSEditorRow";
+import { WSEditor } from "./WSEditor";
 
 export class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
 {

@@ -1,4 +1,8 @@
-import { WSEditorViewCellCoord, WSEditorCellEditorPropsOpts, WSEditor } from "./WSEditor";
+import { WSEditorCellEditorPropsOpts } from "./WSEditorCellEditorPropsOpts";
+
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
 
 export interface WSEditorCellEditorProps<T> extends WSEditorCellEditorPropsOpts {
     data: any;

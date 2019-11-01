@@ -1,4 +1,14 @@
-import { WSEditorPropsOpts, WSEditorColumn, WSEditor, WSEditorCellCoord, WSEditorSelection, WSEditorRowInfo } from "./WSEditor";
+import { WSEditorPropsOpts } from "./WSEditorPropsOpts";
+
+import { WSEditorColumn } from "./WSEditorColumn";
+
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
+
+import { WSEditorSelection } from "./WSEditorSelection";
+
+import { WSEditorRowInfo } from "./WSEditorRowInfo";
 
 export interface WSEditorProps<T> extends WSEditorPropsOpts<T> {
     rows: T[];

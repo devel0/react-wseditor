@@ -1,4 +1,6 @@
-import { WSEditorColumn, WSEditor } from "./WSEditor";
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorColumn } from "./WSEditorColumn";
 
 export interface WSEditorColumnHeaderProps<T> {
     editor: WSEditor<T>;

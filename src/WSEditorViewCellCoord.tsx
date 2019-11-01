@@ -1,4 +1,6 @@
-import { WSEditor, WSEditorCellCoord } from "./WSEditor";
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
 
 export class WSEditorViewCellCoord<T> {
     private _viewRowIdx: number;

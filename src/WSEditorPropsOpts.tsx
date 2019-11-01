@@ -1,4 +1,10 @@
-import { WSEditor, WSEditorSelectMode, WSEditorViewCellCoord, WSEditorColumnHeaderProps } from "./WSEditor";
+import { WSEditorSelectMode } from "./Utils";
+
+import { WSEditor } from "./WSEditor";
+
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+
+import { WSEditorColumnHeaderProps } from "./WSEditorColumnHeaderProps";
 
 export interface WSEditorPropsOpts<T> {
     viewRowCount?: number;

@@ -1,4 +1,6 @@
-import { WSEditorSelectMode, WSEditorPropsOpts } from "./WSEditor"
+import { WSEditorSelectMode } from "./Utils"
+
+import { WSEditorPropsOpts } from "./WSEditorPropsOpts"
 
 export function WSEditorDefaultProps() {
     return {

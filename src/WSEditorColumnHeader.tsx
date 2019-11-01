@@ -1,7 +1,11 @@
-import { WSEditorColumnHeaderProps, WSEditorColumnHeaderState, WSEditorViewCellCoord, WSEditor, SortDirection } from "./WSEditor";
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import * as icons from '@material-ui/icons';
+import { WSEditorColumnHeaderProps } from "./WSEditorColumnHeaderProps";
+import { WSEditorColumnHeaderState } from "./WSEditorColumnHeaderState";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditor } from "./WSEditor";
+import { SortDirection } from "./Utils";
 
 export class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeaderProps<T>, WSEditorColumnHeaderState>
 {

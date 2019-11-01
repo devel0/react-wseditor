@@ -1,9 +1,15 @@
-import {
-    WSEditorRowProps, WSEditorViewCellCoord, WSEditorCellCoord, WSEditorCellEditorProps, WSEditor, WSEditorSelectMode,
-    WSEditorCellEditor, WSEditorCellEditorText, WSEditorCellEditorNumber, WSEditorCellEditorBoolean
-} from "./WSEditor";
 import * as React from "react";
 import { Grid } from "@material-ui/core";
+import { WSEditorRowProps } from "./WSEditorRowProps";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
+import { WSEditor } from "./WSEditor";
+import { WSEditorSelectMode } from "./Utils";
+import { WSEditorCellEditor } from "./WSEditorCellEditor";
+import { WSEditorCellEditorProps } from "./WSEditorCellEditorProps";
+import { WSEditorCellEditorText } from "./WSEditorCellEditorText";
+import { WSEditorCellEditorNumber } from "./WSEditorCellEditorNumber";
+import { WSEditorCellEditorBoolean } from "./WSEditorCellEditorBoolean";
 
 export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 {

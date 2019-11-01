@@ -1,4 +1,6 @@
-import { WSEditorSelection, WSEditorViewCellCoord } from "./WSEditor";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+
+import { WSEditorSelection } from "./WSEditorSelection";
 
 export interface WSEditorStatus<T> {
     scrollOffset: number;

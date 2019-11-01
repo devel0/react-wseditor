@@ -1,17 +1,17 @@
 import * as React from "react";
 import { Grid, Slider } from '@material-ui/core';
-import { WSEditorCellEditor } from "./WSEditorCellEditor";
-import { WSEditorRow } from "./WSEditorRow";
-import { SortDirection } from "./Utils";
-import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
-import { WSEditorCellCoord } from "./WSEditorCellCoord";
-import { WSEditorColumnHeader } from "./WSEditorColumnHeader";
-import { WSEditorDefaultProps } from "./WSEditorDefaultProps";
-import { WSEditorSelection } from "./WSEditorSelection";
-import { WSEditorSelectionRange } from "./WSEditorSelectionRange";
 import { WSEditorProps } from "./WSEditorProps";
 import { WSEditorStatus } from "./WSEditorStatus";
+import { WSEditorDefaultProps } from "./WSEditorDefaultProps";
+import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
+import { WSEditorSelection } from "./WSEditorSelection";
+import { WSEditorCellEditor } from "./WSEditorCellEditor";
+import { WSEditorCellCoord } from "./WSEditorCellCoord";
 import { WSEditorRowInfo } from "./WSEditorRowInfo";
+import { WSEditorSelectionRange } from "./WSEditorSelectionRange";
+import { WSEditorColumnHeader } from "./WSEditorColumnHeader";
+import { SortDirection } from "./Utils";
+import { WSEditorRow } from "./WSEditorRow";
 
 //-----------------------------------------------------------------------------------------------
 
@@ -547,27 +547,27 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
 
 //-----------------------------------------------------------------------------------------------
 
-export * from './WSEditorCellEditor';
-export * from './WSEditorCellEditorNumber';
-export * from './WSEditorCellEditorText';
-export * from './WSEditorCellEditorBoolean';
-export * from './Utils';
-export * from './WSEditorCellCoord';
-export * from './WSEditorViewCellCoord';
-export * from './WSEditorColumn';
-export * from './WSEditorColumnHeader';
-export * from './WSEditorDefaultProps';
-export * from './WSEditorPropsOpts';
-export * from './WSEditorRow';
-export * from './WSEditorSelection';
-export * from './WSEditorSelectionRange';
-export * from './WSEditorSelectionBounds';
-export * from './WSEditorProps';
-export * from './WSEditorCellEditorPropsOpts';
-export * from './WSEditorCellEditorProps';
-export * from './WSEditorStatus';
-export * from './WSEditorRowInfo';
-export * from './WSEditorRowProps';
-export * from './WSEditorCellEditorBooleanOpts';
-export * from './WSEditorColumnHeaderState';
-export * from './WSEditorColumnHeaderProps';
+// export * from './WSEditorCellEditor';
+// export * from './WSEditorCellEditorNumber';
+// export * from './WSEditorCellEditorText';
+// export * from './WSEditorCellEditorBoolean';
+// export * from './Utils';
+// export * from './WSEditorCellCoord';
+// export * from './WSEditorViewCellCoord';
+// export * from './WSEditorColumn';
+// export * from './WSEditorColumnHeader';
+// export * from './WSEditorDefaultProps';
+// export * from './WSEditorPropsOpts';
+// export * from './WSEditorRow';
+// export * from './WSEditorSelection';
+// export * from './WSEditorSelectionRange';
+// export * from './WSEditorSelectionBounds';
+// export * from './WSEditorProps';
+// export * from './WSEditorCellEditorPropsOpts';
+// export * from './WSEditorCellEditorProps';
+// export * from './WSEditorStatus';
+// export * from './WSEditorRowInfo';
+// export * from './WSEditorRowProps';
+// export * from './WSEditorCellEditorBooleanOpts';
+// export * from './WSEditorColumnHeaderState';
+// export * from './WSEditorColumnHeaderProps';
