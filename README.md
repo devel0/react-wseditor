@@ -32,12 +32,12 @@ npm install --save react-wseditor
 - scroll horizontal if set editor width in an [overflow div][11]
 - scrollbar [slider][12] can be hidden
 - [readonly][13] mode
-- [more ui style options](https://github.com/devel0/react-wseditor/blob/master/src/WSEditorDefaultProps.tsx)
+- [more ui style options][17] and their [default values][18]
 
-[1]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorText.tsx
-[2]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorNumber.tsx
-[3]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditorBoolean.tsx
-[4]: https://github.com/devel0/react-wseditor/blob/master/src/WSEditorCellEditor.tsx
+[1]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L531
+[2]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L602
+[3]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L424
+[4]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L327
 [5]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L249
 [6]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L257
 [7]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L269
@@ -45,11 +45,13 @@ npm install --save react-wseditor
 [9]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L62
 [10]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L61
 [11]: https://github.com/devel0/react-wseditor-demo/blob/444c9d8399e220771175a6a2f679a6bd22253657/test02-dev/src/App.tsx#L272
-[12]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L40
-[13]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L32
+[12]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L877
+[13]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L876
 [14]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L279-L280
 [15]: https://github.com/devel0/react-wseditor-demo/blob/ca906f7c7f659b1ce91795d22cea5f6f651c540a/test02/src/App.tsx#L61-L65
 [16]: https://github.com/devel0/react-wseditor-demo/blob/e53456bb58929d88ec9342bbcfff1805c328df7d/test02-dev/src/App.tsx#L72-L73
+[17]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L871
+[18]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L766
 
 ## How to contribute (quickstart)
 
@@ -81,36 +83,36 @@ to allow grid manage tons of rows was required by design to react only for view 
     - [slider][127]
     - [horizontal scroll][128] and [workaround][129]
 
-[100]: https://github.com/devel0/react-wseditor/blob/0721ca0e93e47215ea60b5d9c948fcdf79e156e0/src/WSEditorProps.tsx#L6
-[101]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorDefaultProps.tsx#L4
-[102]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L37
-[103]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L49
-[104]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorViewCellCoord.tsx#L18
-[105]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorViewCellCoord.tsx#L16
-[106]: https://github.com/devel0/react-wseditor/blob/d33c9cb0d8402aca0002b411fbe3910f5d6484cf/src/WSEditorCellCoord.tsx#L15
-[107]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L61
-[108]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L169
-[109]: https://github.com/devel0/react-wseditor/blob/49dfba2aa0927cdcd25a96ecd90568bba259e1c6/src/WSEditorCellEditor.tsx#L26
-[110]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L413-L441
-[111]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L442-L485
-[112]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L430-L435
-[113]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L339
-[114]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L349
-[115]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L16
-[116]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L33
-[117]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L123
-[118]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L22
-[119]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L133
-[120]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L147
-[121]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L171-L181
-[122]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorColumnHeader.tsx#L28
-[123]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L220
-[124]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L109
-[125]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L156
-[126]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L166
-[127]: https://github.com/devel0/react-wseditor/blob/16470e71bc7e0623cb020518ae7c0cee06322e36/src/WSEditor.tsx#L454-L475
-[128]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L25
-[129]: https://github.com/devel0/react-wseditor/blob/37442b34654cb0b11f6a9c7b6d561b165686d577/src/WSEditorRow.tsx#L112
+[100]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L854
+[101]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L871
+[102]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L931
+[103]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L944
+[104]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1664
+[105]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1662
+[106]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L306
+[107]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L956
+[108]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L275
+[109]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L343
+[110]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1358-L1382
+[111]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1383-L1431
+[112]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1371-L1376
+[113]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1257
+[114]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1275
+[115]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L26
+[116]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L73
+[117]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L192
+[118]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L32
+[119]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L49
+[120]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L205
+[121]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L240-L256
+[122]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L735
+[123]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1133
+[124]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L171
+[125]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1069
+[126]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L219-L220
+[127]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L1398-L1421
+[128]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L58
+[129]: https://github.com/devel0/react-wseditor/blob/5c48343ac1f82eb15ad5e61b9e59f7a4735164b4/src/WSEditor.tsx#L182
 
 ## how this project was built
 
