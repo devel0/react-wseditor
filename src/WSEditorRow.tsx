@@ -1,9 +1,8 @@
-import { WSEditorRowProps, WSEditorViewCellCoord, WSEditorCellCoord, WSEditorCellEditorProps, WSEditor, WSEditorSelectMode } from "./WSEditor";
+import {
+    WSEditorRowProps, WSEditorViewCellCoord, WSEditorCellCoord, WSEditorCellEditorProps, WSEditor, WSEditorSelectMode,
+    WSEditorCellEditor, WSEditorCellEditorText, WSEditorCellEditorNumber, WSEditorCellEditorBoolean
+} from "./WSEditor";
 import * as React from "react";
-import { WSEditorCellEditor } from "./WSEditorCellEditor";
-import { WSEditorCellEditorText } from "./WSEditorCellEditorText";
-import { WSEditorCellEditorBoolean } from "./WSEditorCellEditorBoolean";
-import { WSEditorCellEditorNumber } from "./WSEditorCellEditorNumber";
 import { Grid } from "@material-ui/core";
 
 export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
@@ -68,7 +67,7 @@ export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         const viewRowsCount = this.props.editor.props.viewRowCount;
         const colsCount = this.props.editor.props.cols.length;
 
-        const cellEditor = this.props.editor.getCellEditor(viewCell);        
+        const cellEditor = this.props.editor.getCellEditor(viewCell);
 
         let newRowIdx = cell.rowIdx;
         let newColIdx = cell.colIdx;
@@ -91,7 +90,7 @@ export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         else if (e.key === "PageUp") {
             newRowIdx -= viewRowsCount!;
         }
-        else if (e.key === "ArrowRight") {            
+        else if (e.key === "ArrowRight") {
             if (ctrl_key)
                 newColIdx = colsCount - 1;
             else

@@ -1,8 +1,6 @@
-import { InputBase } from "@material-ui/core";
-import { WSEditorCellEditor } from "./WSEditorCellEditor";
-import { WSEditor, WSEditorViewCellCoord } from "./WSEditor";
+import { WSEditorRow, WSEditorCellEditor, WSEditorViewCellCoord, WSEditor } from "./WSEditor";
 import * as React from "react";
-import { WSEditorRow } from "./WSEditorRow";
+import { InputBase } from "@material-ui/core";
 
 export class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
 {
@@ -11,24 +9,24 @@ export class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
     // constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) {
     //     super(props, editor, viewCell);
     // }
-    
+
     getIsFocused() {
         return (this.txtboxRef && document.activeElement === this.txtboxRef) || false;
     }
 
     focus() {
-        super.focus();        
+        super.focus();
         if (this.txtboxRef) {
             const strlen = String(this.props.data).length;
             this.txtboxRef.focus();
-            this.txtboxRef.setSelectionRange(strlen, strlen);            
+            this.txtboxRef.setSelectionRange(strlen, strlen);
         }
     }
 
     handleKeyDown(rowEditor: WSEditorRow<T>, viewCell: WSEditorViewCellCoord<T>, e: React.KeyboardEvent<HTMLDivElement>) {
         const isFocused = this.getIsFocused();
-        
-        super.handleKeyDown(rowEditor, viewCell, e);        
+
+        super.handleKeyDown(rowEditor, viewCell, e);
 
         if (this.txtboxRef) {
             if (this.isDirectEditing() && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {

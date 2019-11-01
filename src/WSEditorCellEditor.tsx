@@ -1,7 +1,16 @@
-import { WSEditor, WSEditorCellEditorProps, WSEditorViewCellCoord, WSEditorCellEditorDefaultProps } from "./WSEditor";
+import {
+    WSEditor, WSEditorViewCellCoord, WSEditorRow, WSEditorCellEditorPropsOpts, WSEditorCellEditorProps    
+} from "./WSEditor";
 import * as React from "react";
-import { WSEditorRow } from "./WSEditorRow";
 import { Grid } from "@material-ui/core";
+
+
+export function WSEditorCellEditorDefaultProps() {
+    return {
+        justify: "center",
+        alignItems: "center"
+    } as WSEditorCellEditorPropsOpts
+}
 
 export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorProps<T>>
 {
@@ -18,20 +27,20 @@ export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorPro
         this.editor = editor;
         this.viewCell = viewCell;
         this.customControlRender = customRender;
-        this.editor.setCellEditor(viewCell, this);        
+        this.editor.setCellEditor(viewCell, this);
     }
 
     componentDidUpdate() {
 
     }
 
-    handleKeyDown(rowEditor: WSEditorRow<T>, viewCell: WSEditorViewCellCoord<T>, e: React.KeyboardEvent<HTMLDivElement>) {        
-        if (!this.getIsFocused()) {            
+    handleKeyDown(rowEditor: WSEditorRow<T>, viewCell: WSEditorViewCellCoord<T>, e: React.KeyboardEvent<HTMLDivElement>) {
+        if (!this.getIsFocused()) {
             this.setDirectEditing(true);
         }
     }
 
-    focus() {        
+    focus() {
     }
 
     getIsFocused() { return false; }
@@ -44,7 +53,7 @@ export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorPro
         return this.editor.state.directEditingViewCell.equals(this.viewCell);
     }
 
-    setData(newData: any) {        
+    setData(newData: any) {
         if (this.editor.props.readonly === true || this.getCol().readonly === true) return;
         this.editor.setViewCellData(this.viewCell, newData);
     }
@@ -52,7 +61,7 @@ export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorPro
     getRow = () => this.viewCell.getRow
     getCol = () => this.editor.props.cols[this.viewCell.viewColIdx];
 
-    leaveCellEdit() {        
+    leaveCellEdit() {
         this.editor.leaveCellEdit(this.viewCell);
         this.setDirectEditing(true);
     }

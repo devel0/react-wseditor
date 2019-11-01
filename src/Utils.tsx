@@ -1,3 +1,7 @@
+export enum SortDirection { Ascending, Descending };
+
+export enum WSEditorSelectMode { Cell, Row }
+
 export function stringIsValidNumber(n: string) {
     const q = n.match(/^[-+]?\d*(\.\d*)?([eE][-+]?\d+)?$/);
 
