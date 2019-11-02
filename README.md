@@ -4,15 +4,70 @@
 
 [![NPM](https://img.shields.io/npm/v/react-wseditor.svg)](https://www.npmjs.com/package/react-wseditor) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-## Install
+## Quickstart
 
 ```bash
-npm install --save react-wseditor
+yarn create react-app my-app --typescript
+cd my-app
+yarn add react-wseditor
+code .
 ```
 
-## Example
+from vscode terminal issue a `yarn start` this will open browser for application debug
 
-- basic example ( [test03](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/ed6763ddeea334332a45998cb2d20ddb6d38544d/test03) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test03) )
+follow an example of react functional component
+
+```ts
+import React, { useState, useEffect } from "react";
+import Chance from 'chance';
+
+import { WSEditor, WSEditorColumn } from 'react-wseditor';
+
+interface MyData {
+    name: string;
+    value1: number;
+    value2: number;
+    value3: number;
+}
+
+export default function MyComponent() {
+    const [rows, setRows] = useState<MyData[]>([]);
+    const [cols, setCols] = useState<WSEditorColumn<MyData>[]>([]);
+
+    const SIZE_TEST = 10000;
+
+    useEffect(() => {
+        setCols([
+            { header: "name", field: "name", defaultEditor: "text" },
+            { header: 'value1', field: 'value1', defaultEditor: "number" },
+            { header: 'value2', field: 'value2', defaultEditor: "number" },
+            { header: 'value3', field: 'value3', defaultEditor: "number" },
+        ]);
+
+        const r: MyData[] = [];
+        const chance = new Chance();
+        for (let i = 0; i < SIZE_TEST; ++i) {
+            r.push({
+                name: chance.word(),
+                value1: chance.minute(),
+                value2: chance.floating({ min: 0, max: 1e6, fixed: 4 }),
+                value3: chance.floating({ min: 0, max: 1e9, fixed: 2 })
+            });
+        }
+        setRows(r);
+    }, []);
+
+    return <WSEditor
+        debug={true}
+        viewRowCount={6}
+        rows={rows} setRows={setRows}
+        cols={cols} setCols={setCols} />
+}
+```
+
+## Examples
+
+- basic example ( [test03](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/e5ecd3dfdf1f3cd17c883f3ee5327a8688adf785/test03) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test03) )
 
 - customization example ( [test02](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/cdfeacdbfe4d94e9e24babd055efc3a5e540c598/test02) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test02) )
 
