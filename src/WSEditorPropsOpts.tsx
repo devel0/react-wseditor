@@ -7,8 +7,7 @@ import { WSEditorViewCellCoord } from "./WSEditorViewCellCoord";
 import { WSEditorColumnHeaderProps } from "./WSEditorColumnHeaderProps";
 
 export interface WSEditorPropsOpts<T> {
-    viewRowCount?: number;
-    viewRowCountFixed?: boolean;
+    viewRowCount?: number;    
     selectionMode?: WSEditorSelectMode;
     selectionModeMulti?: boolean;
     readonly?: boolean;
@@ -28,5 +27,6 @@ export interface WSEditorPropsOpts<T> {
     cellControlStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => React.CSSProperties;
     headerCellStyle?: (props: WSEditorColumnHeaderProps<T>) => React.CSSProperties;
     headerControlStyle?: (props: WSEditorColumnHeaderProps<T>) => React.CSSProperties;
-    frameStyle?: React.CSSProperties;
+    tableStyle?: () => React.CSSProperties;
+    frameStyle?: () => React.CSSProperties;
 }

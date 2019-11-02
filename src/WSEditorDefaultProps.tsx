@@ -5,7 +5,6 @@ import { WSEditorPropsOpts } from "./WSEditorPropsOpts"
 export function WSEditorDefaultProps() {
     return {
         viewRowCount: 10,
-        viewRowCountFixed: false,
         selectionMode: WSEditorSelectMode.Cell,
         selectionModeMulti: true,
         readonly: false,
@@ -82,11 +81,17 @@ export function WSEditorDefaultProps() {
                 margin: "5px",
             }
         },
-        frameStyle: {
-            borderTop: 0,
-            overflow: "auto",
-            border: "1px solid #a0a0a0",
-            //padding: 1                       
+        frameStyle: () => {
+            return {
+            }
+        },
+        tableStyle: () => {
+            return {
+                borderTop: 0,
+                overflow: "auto",
+                border: "1px solid #a0a0a0",
+                //padding: 1                       
+            }
         },
     } as WSEditorPropsOpts<any>
 }

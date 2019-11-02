@@ -456,7 +456,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
             this.recomputeGridHeight(this.state.headerRowHeight);
         }
 
-        return <div>
+        return <div style={Object.assign(WSEditor.defaultProps.frameStyle!(), this.props.frameStyle!())}>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green", fontSize: 13, fontFamily: "Monospace" }}>
                     scrollOffset: {this.state.scrollOffset} | rowsCount: {this.props.rows.length} | gridHeight: {this.state.gridHeight}
@@ -465,14 +465,15 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                     | Selection: {this.state.selection.toString()} | width: {this.props.width} | computedWidth: {layoutWidth} | hoverrowIdx: {this.state.hoverViewRowIdx}
                 </div>
                 : null}
-            <Grid
+            <Grid                
                 container={true}
                 direction="row">
                 <Grid item={true} style={{ width: layoutWidth }}
                 >
                     <div
                         ref={this.scrollableRef}
-                        style={this.props.frameStyle}>
+                        style={Object.assign(WSEditor.defaultProps.tableStyle!(), this.props.tableStyle!())}
+                        >
                         <div style={{
                             width: this.props.width ? this.props.width : "100%"
                         }}>
@@ -538,7 +539,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                             }} />
                     </Grid> : null}
             </Grid>
-        </div>
+        </div >
     }
     //
     // #endregion
