@@ -545,30 +545,3 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
     // #endregion
     //--------------------------------------------    
 }
-
-//-----------------------------------------------------------------------------------------------
-
-// export * from './WSEditorCellEditor';
-// export * from './WSEditorCellEditorNumber';
-// export * from './WSEditorCellEditorText';
-// export * from './WSEditorCellEditorBoolean';
-// export * from './Utils';
-// export * from './WSEditorCellCoord';
-// export * from './WSEditorViewCellCoord';
-// export * from './WSEditorColumn';
-// export * from './WSEditorColumnHeader';
-// export * from './WSEditorDefaultProps';
-// export * from './WSEditorPropsOpts';
-// export * from './WSEditorRow';
-// export * from './WSEditorSelection';
-// export * from './WSEditorSelectionRange';
-// export * from './WSEditorSelectionBounds';
-// export * from './WSEditorProps';
-// export * from './WSEditorCellEditorPropsOpts';
-// export * from './WSEditorCellEditorProps';
-// export * from './WSEditorStatus';
-// export * from './WSEditorRowInfo';
-// export * from './WSEditorRowProps';
-// export * from './WSEditorCellEditorBooleanOpts';
-// export * from './WSEditorColumnHeaderState';
-// export * from './WSEditorColumnHeaderProps';
