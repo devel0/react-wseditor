@@ -4,6 +4,14 @@
 
 [![NPM](https://img.shields.io/npm/v/react-wseditor.svg)](https://www.npmjs.com/package/react-wseditor) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+- [Quickstart](#quickstart)
+- [Examples](#examples)
+- [Features](#features)
+- [How to contribute (quickstart)](#how-to-contribute-quickstart)
+- [development keynotes](#development-keynotes)
+
+---
+
 ## Quickstart
 
 ```bash
