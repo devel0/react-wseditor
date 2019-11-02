@@ -12,7 +12,8 @@ npm install --save react-wseditor
 
 ## Example
 
-- basic example ( [demo](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/62b3c059ef2b76a1d040a312cce1813b253f9f93/test01) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test01) )
+- basic example ( [test03](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/b5b25511eebf6c8eb8d66f2f93ed4438c578ef2d/test03) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test03) )
+
 - customization example ( [demo](https://codesandbox.io/s/github/devel0/react-wseditor-demo/tree/cdfeacdbfe4d94e9e24babd055efc3a5e540c598/test02) - [source](https://github.com/devel0/react-wseditor-demo/tree/master/test02) )
 
 ![](doc/react-wseditor-example.png)
