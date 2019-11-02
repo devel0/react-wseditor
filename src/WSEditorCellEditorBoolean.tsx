@@ -10,7 +10,7 @@ import { WSEditor } from "./WSEditor";
 
 export class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
 {
-    cbRef: HTMLButtonElement | null = null;
+    cbRef: HTMLElement | null = null;
     opts?: WSEditorCellEditorBooleanOpts;
 
     constructor(props: WSEditorCellEditorProps<T>, editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>,
@@ -34,6 +34,8 @@ export class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
         }
     }
 
+    static nr: number = 0;
+
     cellContentRender() {
         const col = this.getCol();
 
@@ -55,10 +57,38 @@ export class WSEditorCellEditorBoolean<T> extends WSEditorCellEditor<T>
                 {this.props.data === true ? <icons.Done style={controlStyle} /> : this.props.data !== false ? "-" : ""}
             </div>
         }
-        else {
+        else if (this.opts && this.opts.noMaterial === true) {
+            const n = WSEditorCellEditorBoolean.nr++;
+            const idref = "n" + n;
+            const ctl = <input type="checkbox"                
+                ref={(x) => this.cbRef = x}
+                id={idref} name={idref}
+                checked={this.props.data}
+                onChange={(e) => { this.setData(e.target.checked) }}
+            />;
+
+            const controlStyle = Object.assign({},
+                defaultControlStyle,
+                this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
+                col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
+            );
+
+            return <div style={controlStyle}>
+                {(this.opts && this.opts.label) ?
+                    this.opts.labelPlacement === "start" ?
+                        <div>
+                            <label htmlFor={idref}>{this.opts.label}</label>{ctl}
+                        </div>
+                        :
+                        <div>
+                            {ctl}<label htmlFor={idref}>{this.opts.label}</label>
+                        </div>
+                    :
+                    ctl}
+            </div>
+        } else {
             const ctl = <Checkbox
-                icon={<icons.CheckBoxOutlineBlank style={{ fontSize: 20 }} />}
-                checkedIcon={<icons.CheckBox style={{ fontSize: 20 }} />}
+                
                 ref={(h: HTMLButtonElement) => this.cbRef = h}
                 checked={this.props.data}
                 onChange={(e) => { this.setData(e.target.checked) }}
