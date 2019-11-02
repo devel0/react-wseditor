@@ -15,7 +15,7 @@ code .
 
 from vscode terminal issue a `yarn start` this will open browser for application debug
 
-follow an example of react functional component
+follow an example of react functional component ( requires `yarn add chance @types/chance` in order to work )
 
 ```ts
 import React, { useState, useEffect } from "react";
