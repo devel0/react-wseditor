@@ -65,9 +65,13 @@ export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorPro
     leaveCellEdit() {
         this.editor.leaveCellEdit(this.viewCell);
         this.setDirectEditing(true);
+    }     
+
+    onMousedown(e: React.MouseEvent<HTMLDivElement>) {
+        if (!this.editor.state.focusedViewCell.equals(this.viewCell)) e.preventDefault();
     }
 
-    cellContentRender() {
+    render() {
         const col = this.getCol();
 
         const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell);
@@ -84,24 +88,16 @@ export class WSEditorCellEditor<T> extends React.Component<WSEditorCellEditorPro
             col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
             { cursor: "default" });
 
-        return <div style={containerStyle}>
-            {this.customControlRender ?
-                this.customControlRender(this, this.viewCell.getRow(this.editor)) :
-                <div style={controlStyle}>
-                    {this.props.data}
-                </div>
-            }
-        </div>
-    }
-
-    onMousedown(e: React.MouseEvent<HTMLDivElement>) {
-        if (!this.editor.state.focusedViewCell.equals(this.viewCell)) e.preventDefault();
-    }
-
-    render() {
         return <Grid item={true}
             onMouseDown={(e) => this.onMousedown(e)}>
-            {this.cellContentRender()}
+            <div style={containerStyle}>
+                {this.customControlRender ?
+                    this.customControlRender(this, this.viewCell.getRow(this.editor)) :
+                    <div style={controlStyle}>
+                        {this.props.data}
+                    </div>
+                }
+            </div>
         </Grid>
     }
 }
