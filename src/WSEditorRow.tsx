@@ -58,7 +58,7 @@ export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         this.props.editor.setHoverViewRowIdx(evtviewCell.viewRowIdx);
     }
 
-    rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {        
+    rowHandleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, viewCell: WSEditorViewCellCoord<T>) => {
         const cell = viewCell.getCellCoord(this.props.editor.state.scrollOffset);
         if (this.props.editor.props.onKeyDown) this.props.editor.props.onKeyDown(this.props.editor, cell, e);
         if (e.defaultPrevented) return;
@@ -87,7 +87,7 @@ export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
         else if (e.key === "PageDown") {
             newRowIdx += viewRowsCount!;
         }
-        else if (e.key === "ArrowUp") {            
+        else if (e.key === "ArrowUp") {
             if (ctrl_key)
                 newRowIdx = 0;
             else
@@ -165,7 +165,7 @@ export class WSEditorRow<T> extends React.Component<WSEditorRowProps<T>>
 
             if (newColIdx < 0) newColIdx = 0;
             else if (newColIdx >= colsCount) newColIdx = colsCount - 1;
-            
+
             if (focusCell) this.props.editor.setCurrentCell(new WSEditorCellCoord<T>(newRowIdx, newColIdx), shift_key && !shiftHandled);
             e.preventDefault();
             if (newColIdx === 0 && this.props.editor.scrollableRef.current && this.props.editor.scrollableRef.current.scrollLeft !== 0) {
