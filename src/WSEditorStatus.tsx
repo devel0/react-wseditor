@@ -10,4 +10,5 @@ export interface WSEditorStatus<T> {
     headerRowHeight: number;
     gridHeight: number;
     selection: WSEditorSelection<T>;
+    columnWidths: number[];
 }

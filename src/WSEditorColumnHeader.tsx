@@ -25,7 +25,23 @@ export class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeade
         this.props.editor.toggleColumnHeaderSort(this, shiftPressed);
     }
 
-    render(key?: string | number | undefined) {
+    componentDidUpdate() {
+        if (this.containerRef && this.containerRef.current) {
+            const w = this.containerRef.current.clientWidth;
+            if (this.props.editor.state.columnWidths[this.props.cIdx] !== w) {  
+                this.props.editor.setColumnWidth(this.props.cIdx, w);
+            }            
+        }
+    }
+
+    render() {
+        if (this.containerRef && this.containerRef.current) {            
+            const w = this.containerRef.current.clientWidth;
+            if (w > 0 && w !== this.props.editor.state.columnWidths[this.props.cIdx]) {
+                this.props.editor.setColumnWidth(this.props.cIdx, w);
+            }
+        }
+
         if (this.containerRef && this.containerRef.current) {
             const colCurrentWidth = this.containerRef.current.clientWidth;
             if (colCurrentWidth > 0 && colCurrentWidth !== this.state.currentWidth) {
@@ -58,7 +74,7 @@ export class WSEditorColumnHeader<T> extends React.Component<WSEditorColumnHeade
 
         return <Grid
             xs
-            key={key}
+            key={"c:"+ this.props.cIdx}
             onMouseDown={(e) => { this.toggleSort(e.getModifierState("Shift")); e.preventDefault(); }}
             item={true}
             ref={this.containerRef}

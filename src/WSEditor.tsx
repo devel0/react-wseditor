@@ -32,6 +32,9 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
         this.scrollableRef = React.createRef();
         this.gridRef = React.createRef();
 
+        const cWidths = [];
+        for (let cIdx = 0; cIdx < this.props.cols.length; ++cIdx) cWidths.push(0);
+
         this.state = {
             //frameTargetElement: null,
             scrollOffset: 0,
@@ -41,6 +44,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
             headerRowHeight: 0,
             gridHeight: 0,
             selection: new WSEditorSelection<T>(this, []),
+            columnWidths: cWidths
         };
     }
 
@@ -224,21 +228,18 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
             const col = this.props.cols[cIdx];
             col.viewColIdx = cIdx;
 
-            const colHeader = new WSEditorColumnHeader<T>({
-                editor: this,
-                col: col,
-                cIdx: cIdx
-            });
-
-            col.colHeader = colHeader;
-
-            const hCTL = colHeader.render("col:" + cIdx);
-
-            res.push(hCTL);
+            res.push(<WSEditorColumnHeader editor={this} col={col} cIdx={cIdx} />);
         }
 
         return res;
     }
+
+    setColumnWidth(cIdx: number, width: number) {
+        const newColumnWidths = this.state.columnWidths.slice();
+        newColumnWidths[cIdx] = width;
+        this.setState({ columnWidths: newColumnWidths });
+    }
+
 
     toggleColumnHeaderSort(colHdr: WSEditorColumnHeader<T>, maintainPreviousSort: boolean) {
         const col = colHdr.props.col;
