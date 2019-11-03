@@ -9,7 +9,7 @@ export function WSEditorDefaultProps() {
         selectionModeMulti: true,
         readonly: false,
         hideSlider: false,
-        //cellMargin: 2,
+        disableScrollLock: false,        
         sliderWheelDivisionStep: 15,
         debug: false,
         width: "100%",

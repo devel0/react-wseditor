@@ -18,6 +18,7 @@ export interface WSEditorPropsOpts<T> {
     width?: number | string;
     minWidth?: number | string;
     maxWidth?: number | string;
+    disableScrollLock?: boolean;
     gridCellStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => React.CSSProperties;
     gridCellFocusedStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => React.CSSProperties;
     gridRowFocusedStyle?: (editor: WSEditor<T>, viewCell: WSEditorViewCellCoord<T>) => React.CSSProperties;

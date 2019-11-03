@@ -17,6 +17,7 @@ import { WSEditorRow } from "./WSEditorRow";
 
 export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorStatus<T>>
 {
+    frameRef: React.RefObject<HTMLDivElement>;
     headerRowRef: React.RefObject<HTMLDivElement>;
     scrollableRef: React.RefObject<HTMLDivElement>;
     gridRef: React.RefObject<HTMLDivElement>;
@@ -26,11 +27,13 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
     constructor(props: WSEditorProps<T>) {
         super(props);
 
+        this.frameRef = React.createRef();
         this.headerRowRef = React.createRef();
         this.scrollableRef = React.createRef();
         this.gridRef = React.createRef();
 
         this.state = {
+            //frameTargetElement: null,
             scrollOffset: 0,
             focusedViewCell: new WSEditorViewCellCoord<T>(-1, -1),
             directEditingViewCell: new WSEditorViewCellCoord<T>(-1, -1),
@@ -406,6 +409,78 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                 gridHeight: realGridHeight
             });
         }
+    }   
+
+    handleWheel = (e: Event) => {
+        e.preventDefault();
+    }
+
+    handleResize = (e: UIEvent) => {
+        let hrh = this.state.headerRowHeight;
+
+        if (this.headerRowRef && this.headerRowRef.current) {
+            hrh = this.headerRowRef.current.clientHeight;
+            //this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
+        }
+        this.recomputeGridHeight(hrh);
+    }
+
+    touchInfo: Touch | null = null;
+
+    handleTouchStart = (e: TouchEvent) => {
+        this.touchInfo = e.touches.item(0);
+    }
+
+    handleTouchMove = (e: TouchEvent) => {
+        if (this.props.disableScrollLock === true) {            
+            return;
+        }        
+
+        const item = e.touches.item(0);
+        if (item && this.touchInfo) {
+            const x = item.clientX;
+            const y = item.clientY;
+
+            const dx = this.touchInfo.clientX - x;
+            const dy = this.touchInfo.clientY - y;
+
+            this.touchInfo = item;
+
+            if (Math.abs(dy) > Math.abs(dx)) {
+                let amount = 0;
+                if (dy < 0) amount = -1; else if (dy > 0) amount = 1;
+                this.setScrollOffset(this.state.scrollOffset + amount);
+                e.preventDefault();
+            }
+        }
+    }
+
+    componentDidMount() {
+
+        if (this.frameRef.current) {
+            this.frameRef.current.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+            this.frameRef.current.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+            this.frameRef.current.addEventListener("wheel", this.handleWheel, { passive: false });
+        }
+
+        let hrh = this.state.headerRowHeight;
+
+        if (this.headerRowRef && this.headerRowRef.current) {
+            hrh = this.headerRowRef.current.clientHeight;
+        }
+        this.recomputeGridHeight(hrh);
+
+        window.addEventListener("resize", this.handleResize);
+    }
+
+    componentWillUmount() {
+        if (this.frameRef.current) {
+            this.frameRef.current.removeEventListener("touchmove", this.handleTouchMove);
+            this.frameRef.current.removeEventListener("touchstart", this.handleTouchStart);
+            this.frameRef.current.removeEventListener("wheel", this.handleWheel);
+        }
+
+        window.removeEventListener("resize", this.handleResize);
     }
 
     componentDidUpdate(prevProps: Readonly<WSEditorProps<T>>, prevState: Readonly<WSEditorStatus<T>>) {
@@ -422,27 +497,8 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
         }
     }
 
-    componentDidMount() {
-        let hrh = this.state.headerRowHeight;
-
-        if (this.headerRowRef && this.headerRowRef.current) {
-            hrh = this.headerRowRef.current.clientHeight;
-            //this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
-        }
-        this.recomputeGridHeight(hrh);
-
-        window.addEventListener("resize", () => {
-            hrh = this.state.headerRowHeight;
-
-            if (this.headerRowRef && this.headerRowRef.current) {
-                hrh = this.headerRowRef.current.clientHeight;
-                //this.setState({ headerRowHeight: this.headerRowRef.current.clientHeight });
-            }
-            this.recomputeGridHeight(hrh);
-        });
-    }
-
     render() {
+
         let layoutWidth: string | number | undefined = undefined;
 
         if (this.props.width) {
@@ -456,7 +512,8 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
             this.recomputeGridHeight(this.state.headerRowHeight);
         }
 
-        return <div style={Object.assign(WSEditor.defaultProps.frameStyle!(), this.props.frameStyle!())}>
+        return <div            
+            style={Object.assign(WSEditor.defaultProps.frameStyle!(), this.props.frameStyle!(), { overflow: "hidden" })}>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green", fontSize: 13, fontFamily: "Monospace" }}>
                     scrollOffset: {this.state.scrollOffset} | rowsCount: {this.props.rows.length} | gridHeight: {this.state.gridHeight}
@@ -465,7 +522,8 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                     | Selection: {this.state.selection.toString()} | width: {this.props.width} | computedWidth: {layoutWidth} | hoverrowIdx: {this.state.hoverViewRowIdx}
                 </div>
                 : null}
-            <Grid                
+
+            <Grid
                 container={true}
                 direction="row">
                 <Grid item={true} style={{ width: layoutWidth }}
@@ -473,7 +531,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                     <div
                         ref={this.scrollableRef}
                         style={Object.assign(WSEditor.defaultProps.tableStyle!(), this.props.tableStyle!())}
-                        >
+                    >
                         <div style={{
                             width: this.props.width ? this.props.width : "100%"
                         }}>
@@ -484,7 +542,10 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                                     container={true} direction="row">
                                     {this.renderColumHeaders()}
                                 </Grid>
-                                {this.renderRows()}
+                                <div ref={this.frameRef}
+                                >
+                                    {this.renderRows()}
+                                </div>
                             </Grid>
                         </div>
                     </div>
@@ -539,7 +600,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                             }} />
                     </Grid> : null}
             </Grid>
-        </div >
+        </div>
     }
     //
     // #endregion

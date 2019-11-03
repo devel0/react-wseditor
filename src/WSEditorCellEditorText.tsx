@@ -49,16 +49,22 @@ export class WSEditorCellEditorText<T> extends WSEditorCellEditor<T>
         }
     }
 
-    cellContentRender() {
+    render() {
         const col = this.getCol();
+
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell);
+        const containerStyle = Object.assign({},
+            defaultContainerStyle,
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell) : {}
+        );
 
         const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell);
         const controlStyle = Object.assign({},
             defaultControlStyle,
-            { verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0, cursor: "default" },
             this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
             col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
-        );
+            { cursor: "default", verticalAlign: "middle", border: 0, background: "transparent", outline: 0, padding: 0 });        
 
         return <div style={controlStyle}>
             <InputBase

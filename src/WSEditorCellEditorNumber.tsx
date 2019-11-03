@@ -31,15 +31,21 @@ export class WSEditorCellEditorNumber<T> extends WSEditorCellEditorText<T>
         return str.length === 0 || stringIsValidNumber(str);
     }
 
-    cellContentRender() {
+    render() {
         const col = this.getCol();
+
+        const defaultContainerStyle = WSEditor.defaultProps.cellContainerStyle!(this.editor, this.viewCell);
+        const containerStyle = Object.assign({},
+            defaultContainerStyle,
+            this.editor.props.cellContainerStyle ? this.editor.props.cellContainerStyle!(this.editor, this.viewCell) : {},
+            col.cellContainerStyle ? col.cellContainerStyle!(this.editor, this.viewCell) : {}
+        );
 
         const defaultControlStyle = WSEditor.defaultProps.cellControlStyle!(this.editor, this.viewCell);
         const controlStyle = Object.assign({},
             defaultControlStyle,
             this.editor.props.cellControlStyle ? this.editor.props.cellControlStyle!(this.editor, this.viewCell) : {},
-            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {},
-        );
+            col.cellControlStyle ? col.cellControlStyle!(this.editor, this.viewCell) : {});            
 
         return <div style={controlStyle}>
             <CellTextField
