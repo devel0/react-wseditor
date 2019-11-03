@@ -364,29 +364,71 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
         this.setState({ hoverViewRowIdx: viewRowIdx });
     }
 
+    cachedRowsScrollOffset: number = -2;
+    cachedRows: React.ReactNode[] = [];
+    cachedFocusedCell: WSEditorCellCoord<T> = new WSEditorCellCoord<T>(-1, -1);
+
     renderRows() {
-        const res: React.ReactNode[] = [];
-
-        if (this.initialRender && this.props.rows.length > 0) {
-            this.initialRender = false;
-            this.sortRows();
-        }
-
         const rowsCount = this.props.rows.length;
+        const focusedCell = this.state.focusedViewCell.getCellCoord(this.state.scrollOffset);
 
-        for (let viewRowIdx = 0; viewRowIdx < this.props.viewRowCount!; ++viewRowIdx) {
-            const ridx = this.state.scrollOffset + viewRowIdx;
-            if (ridx < 0 || ridx >= rowsCount) continue;
+        console.log("render rows ( focusedCell:" + focusedCell + " )");
 
-            res.push(<Grid
-                key={"vr:" + viewRowIdx}
-                container
-                direction="row">
-                <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
-            </Grid>);
+        if (this.cachedRows.length !== this.props.viewRowCount) {
+            console.log("-- REBUILD RENDER ROWS");
+            this.cachedRows = [];
+            this.cachedRowsScrollOffset = this.state.scrollOffset;
+            this.cachedFocusedCell = this.state.focusedViewCell.getCellCoord(this.state.scrollOffset);
+
+            if (this.initialRender && this.props.rows.length > 0) {
+                this.initialRender = false;
+                this.sortRows();
+            }
+
+            for (let viewRowIdx = 0; viewRowIdx < this.props.viewRowCount!; ++viewRowIdx) {
+                const ridx = this.state.scrollOffset + viewRowIdx;
+                if (ridx < 0 || ridx >= rowsCount) continue;
+
+                this.cachedRows.push(<Grid
+                    key={"r:" + ridx}
+                    container
+                    direction="row">
+                    <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
+                </Grid>);
+            }
+        } else if (this.state.scrollOffset !== this.cachedRowsScrollOffset ||
+            !focusedCell.equals(this.cachedFocusedCell)) {
+
+            const newRows: React.ReactNode[] = [];
+
+            let reused = 0;
+
+            for (let viewRowIdx = 0; viewRowIdx < this.props.viewRowCount!; ++viewRowIdx) {
+                const ridx = this.state.scrollOffset + viewRowIdx;
+                if (ridx < 0 || ridx >= rowsCount) continue;
+
+                const cacheIdx = this.state.scrollOffset - this.cachedRowsScrollOffset + viewRowIdx;
+                console.log("cacheIdx:" + cacheIdx);
+                if (cacheIdx >= 0 && cacheIdx < this.cachedRows.length &&
+                    focusedCell.rowIdx !== ridx && this.cachedFocusedCell.rowIdx !== ridx) {
+                    newRows.push(this.cachedRows[cacheIdx]);
+                    ++reused;
+                }
+                else
+                    newRows.push(<Grid
+                        key={"r:" + ridx}
+                        container
+                        direction="row">
+                        <WSEditorRow viewRowIdx={viewRowIdx} editor={this} />
+                    </Grid>);
+            }
+            console.log("(cache reused rows:" + reused + ")");
+
+            this.cachedRows = newRows;
+            this.cachedRowsScrollOffset = this.state.scrollOffset;
         }
 
-        return res;
+        return this.cachedRows;
     }
 
     //  static getDerivedStateFromProps<T>(props: WSEditorProps<T>, state: WSEditorStatus<T>) {
@@ -409,7 +451,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                 gridHeight: realGridHeight
             });
         }
-    }   
+    }
 
     handleWheel = (e: Event) => {
         e.preventDefault();
@@ -432,9 +474,9 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
     }
 
     handleTouchMove = (e: TouchEvent) => {
-        if (this.props.disableScrollLock === true) {            
+        if (this.props.disableScrollLock === true) {
             return;
-        }        
+        }
 
         const item = e.touches.item(0);
         if (item && this.touchInfo) {
@@ -512,7 +554,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
             this.recomputeGridHeight(this.state.headerRowHeight);
         }
 
-        return <div            
+        return <div
             style={Object.assign(WSEditor.defaultProps.frameStyle!(), this.props.frameStyle!(), { overflow: "hidden" })}>
             {this.props.debug === true ?
                 <div style={{ marginBottom: "1em", color: "green", fontSize: 13, fontFamily: "Monospace" }}>
@@ -520,6 +562,7 @@ export class WSEditor<T> extends React.PureComponent<WSEditorProps<T>, WSEditorS
                     | headerRowHeight: {this.state.headerRowHeight}
                     | HScroll: {this.scrollableRef.current ? this.scrollableRef.current.scrollLeft : 0}
                     | Selection: {this.state.selection.toString()} | width: {this.props.width} | computedWidth: {layoutWidth} | hoverrowIdx: {this.state.hoverViewRowIdx}
+                    | FocusViewCell: {this.state.focusedViewCell.toString()}
                 </div>
                 : null}
 
