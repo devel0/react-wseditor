@@ -17,6 +17,7 @@
 - **design** : each component row, cell should have data and other informations in their prop in order to take advantage of React PureComponent or useMemo ( functional component ) to allow automatic avoid of rendering when props doesn't change. This implementation make use of direct access to editor information through object preventing this practice.
 - **performance** : when rows x count = cells count is big there are problem during cell change using keys ( arrow up/down )
 - **alternatives** :
+  - [react-data-grid](https://adazzle.github.io/react-data-grid/docs/examples/simple-grid) / [demo edit 1000x20](https://codesandbox.io/s/github/devel0/repros/tree/7ad454c13d0549eb60aad8c557cbf36fad2146f5/react-data-grid/test-react-data-grid)
   - [react-virtualized](https://github.com/bvaughn/react-virtualized)
   - [base-table](https://github.com/Autodesk/react-base-table)
 
