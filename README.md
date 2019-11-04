@@ -12,6 +12,14 @@
 
 ---
 
+## Limitations
+
+- **design** : each component row, cell should have data and other informations in their prop in order to take advantage of React PureComponent or useMemo ( functional component ) to allow automatic avoid of rendering when props doesn't change. This implementation make use of direct access to editor information through object preventing this practice.
+- **performance** : when rows x count = cells count is big there are problem during cell change using keys ( arrow up/down )
+- **alternatives** :
+  - [react-virtualized](https://github.com/bvaughn/react-virtualized)
+  - [base-table](https://github.com/Autodesk/react-base-table)
+
 ## Quickstart
 
 ```bash
