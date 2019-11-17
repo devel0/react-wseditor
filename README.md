@@ -14,6 +14,8 @@
 
 ## Limitations
 
+> **NEWS** : improved version of this control available here [react-ws-canvas](https://github.com/devel0/react-ws-canvas)
+
 - **design** : each component row, cell should have data and other informations in their prop in order to take advantage of React PureComponent or useMemo ( functional component ) to allow automatic avoid of rendering when props doesn't change. This implementation make use of direct access to editor information through object preventing this practice.
 - **performance** : when rows x count = cells count is big there are problem during cell change using keys ( arrow up/down )
 - **alternatives** :
