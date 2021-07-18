@@ -26,7 +26,7 @@
 ## Quickstart
 
 ```bash
-yarn create react-app my-app --typescript
+yarn create react-app my-app --template typescript
 cd my-app
 yarn add react-wseditor
 code .
